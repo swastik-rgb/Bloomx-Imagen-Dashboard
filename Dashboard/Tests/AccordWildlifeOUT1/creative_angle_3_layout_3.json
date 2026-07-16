@@ -1,0 +1,30 @@
+{
+  "angle_id": 3,
+  "layout_id": 3,
+  "ingredients": {
+    "logoUrl": "https://www.accordwildlifepench.com/web/themes/images/logo.jpg",
+    "brandColors": {
+      "primaryColor": "#FFFFFF",
+      "secondaryColor": "#000000",
+      "accentColor": "#FF0000"
+    },
+    "fonts": {
+      "headlineFont": "Outfit",
+      "bodyFont": "WorkSans"
+    },
+    "productImages": [
+      "https://www.accordwildlifepench.com/web/banners/26377.jpg",
+      "https://www.accordwildlifepench.com/web/banners/63722.jpg"
+    ],
+    "referenceImage": "http://hotelroyalorbit.com//web/uploads/"
+  },
+  "displayText": {
+    "headline": "From Concrete to Canopy",
+    "offer": "Transform Your Holiday Experience",
+    "subheading": "Witness the elegance of a life surrounded by lush greenery.",
+    "date": "Escape Today",
+    "footer": "*Terms apply."
+  },
+  "style": "tranquil transformation, refined appeal",
+  "description": "A glowing effect floats the resort images mid-air, with sleek text showcasing the transformation from urban constraints to natural freedom."
+}

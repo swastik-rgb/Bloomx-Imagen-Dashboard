@@ -1,0 +1,28 @@
+{
+  "ingredients": {
+    "logoUrl": "https://images.unsplash.com/photo-1547949003-9792a18a2601?auto=format&fit=crop&w=150&q=80",
+    "brandColors": {
+      "primaryColor": "#1C1917",
+      "secondaryColor": "#F5F5F4",
+      "accentColor": "#C5A880"
+    },
+    "fonts": {
+      "headlineFont": "Italiana",
+      "bodyFont": "Lora"
+    },
+    "productImages": [
+      "https://images.unsplash.com/photo-1547949003-9792a18a2601?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "referenceImage": "https://images.unsplash.com/photo-1547949003-9792a18a2601?auto=format&fit=crop&w=1200&q=80"
+  },
+  "displayText": {
+    "headline": "Designed For A Lifetime. And The One After.",
+    "offer": "INVEST IN LEGACY",
+    "subheading": "The Heirloom Briefcase Collection",
+    "date": "ESTABLISHED TO ENDURE",
+    "footer": "Every piece is numbered, documented, and guaranteed for life."
+  },
+  "style": "minimalist editorial premium luxury minimal collage asymmetrical staggered overlapping",
+  "description": "An editorial minimal collage layout emphasizing timeless investment. Two distinct product frames overlap with staggered offsets over a clean, warm cream (#F5F5F4) backdrop. The primary image showcases the structured, classic brief in full perspective, while a slightly smaller, offset frame captures a detailed macro shot of the hand-burnished edges and solid brass hardware. Deep charcoal typography elements are positioned in the negative space, creating a balanced, high-end gallery feel."
+}

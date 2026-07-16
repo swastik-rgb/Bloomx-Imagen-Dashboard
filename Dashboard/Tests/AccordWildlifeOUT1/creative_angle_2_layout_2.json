@@ -1,0 +1,30 @@
+{
+  "angle_id": 2,
+  "layout_id": 2,
+  "ingredients": {
+    "logoUrl": "https://www.accordwildlifepench.com/web/themes/images/logo.jpg",
+    "brandColors": {
+      "primaryColor": "#FFFFFF",
+      "secondaryColor": "#000000",
+      "accentColor": "#FF0000"
+    },
+    "fonts": {
+      "headlineFont": "Outfit",
+      "bodyFont": "WorkSans"
+    },
+    "productImages": [
+      "https://www.accordwildlifepench.com/web/banners/26376.jpg",
+      "https://www.accordwildlifepench.com/web/banners/26377.jpg"
+    ],
+    "referenceImage": "http://hotelroyalorbit.com//web/uploads/"
+  },
+  "displayText": {
+    "headline": "Are Urban Drains Bogging You Down?",
+    "offer": "Get Back to Nature",
+    "subheading": "Solve city life's draining routine with our luxurious jungle oasis.",
+    "date": "Limited Offer - Book Today",
+    "footer": "Contact us for more information."
+  },
+  "style": "natural allure, calming sophistication",
+  "description": "A centered resort image with text highlighting the core pain point. The polished marble pedestal symbolizes the seamless solution."
+}

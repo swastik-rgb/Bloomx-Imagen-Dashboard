@@ -1,0 +1,30 @@
+{
+  "angle_id": 9,
+  "layout_id": 9,
+  "ingredients": {
+    "logoUrl": "https://www.accordwildlifepench.com/web/themes/images/logo.jpg",
+    "brandColors": {
+      "primaryColor": "#FFFFFF",
+      "secondaryColor": "#000000",
+      "accentColor": "#FF0000"
+    },
+    "fonts": {
+      "headlineFont": "Outfit",
+      "bodyFont": "WorkSans"
+    },
+    "productImages": [
+      "https://www.accordwildlifepench.com/web/uploads/events/38091.jpg",
+      "https://www.accordwildlifepench.com/web/uploads/events/38224.jpg"
+    ],
+    "referenceImage": "http://hotelroyalorbit.com//web/uploads/"
+  },
+  "displayText": {
+    "headline": "The Ultimate Wildlife Retreat",
+    "offer": "Bundle Packs Now Available",
+    "subheading": "Luxury comfort amidst sprawling wilderness.",
+    "date": "Book ahead for package deals",
+    "footer": "Terms apply."
+  },
+  "style": "Packaged offer layout with immersive wild visuals",
+  "description": "Focusing on package offerings, the adverts align enticing bundling steals against a backdrop of lush ecosystem imagery. The balance of text and visuals is structured to instill a sense of a bundled adventure offer."
+}

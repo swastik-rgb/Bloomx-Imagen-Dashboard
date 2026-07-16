@@ -1,0 +1,27 @@
+{
+  "ingredients": {
+    "logoUrl": "https://images.unsplash.com/photo-1516841273335-e39b37888115?auto=format&fit=crop&w=150&h=50&q=80",
+    "brandColors": {
+      "primaryColor": "#121212",
+      "secondaryColor": "#F5F2EB",
+      "accentColor": "#D4AF37"
+    },
+    "fonts": {
+      "headlineFont": "Italiana",
+      "bodyFont": "Lora"
+    },
+    "productImages": [
+      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80"
+    ],
+    "referenceImage": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80"
+  },
+  "displayText": {
+    "headline": "THE PRESTIGE OF DISCOVERY",
+    "offer": "LIMITED EDITION NO. 01",
+    "subheading": "Crafted for those who command the horizon.",
+    "date": "RESERVATIONS NOW OPEN",
+    "footer": "Individually numbered. T&Cs apply."
+  },
+  "style": "commercial product photography minimalist modern Monolith Frame geometric high-contrast luxury matte black champagne gold",
+  "description": "Implementing the Monolith Frame layout template: The luxury timepiece is dramatically presented in front of towering, offset geometric slabs of dark charcoal slate and warm gold-brushed metal. These monolithic blocks create layered depth and frame the product with a sharp, architectural silhouette. Dramatic directional lighting from above casts crisp shadows, accentuating the refined materials and premium explorer appeal."
+}

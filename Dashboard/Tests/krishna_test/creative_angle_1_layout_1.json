@@ -1,0 +1,27 @@
+{
+  "ingredients": {
+    "logoUrl": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=200&h=100&q=80",
+    "brandColors": {
+      "primaryColor": "#0A0A0A",
+      "secondaryColor": "#F9F9F9",
+      "accentColor": "#E32B2B"
+    },
+    "fonts": {
+      "headlineFont": "Outfit",
+      "bodyFont": "WorkSans"
+    },
+    "productImages": [
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "referenceImage": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80"
+  },
+  "displayText": {
+    "headline": "Clutter is noise. Design is quiet.",
+    "offer": "CRAFTED FOR CLARITY",
+    "subheading": "The Nord Minimalist Collection",
+    "date": "EST. 2024",
+    "footer": "Explore the Nord Story. Shop Now."
+  },
+  "style": "Swiss Grid asymmetric left-aligned typography minimal clean high-contrast",
+  "description": "Implemented in a strict Swiss Grid style: The canvas features an asymmetric layout with a solid off-white background (#F9F9F9). All textual content is aggressively left-aligned along a strong invisible vertical axis on the left third of the frame. The bold headline is rendered in oversized black 'Outfit' font, contrasting with a striking Swiss-red (#E32B2B) accent block indicating 'CRAFTED FOR CLARITY'. The single minimalist product image is positioned off-center on the right, balanced by generous negative space to emphasize structural purity and the brand's quiet design story."
+}

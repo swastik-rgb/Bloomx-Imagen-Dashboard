@@ -1,0 +1,30 @@
+{
+  "angle_id": 5,
+  "layout_id": 5,
+  "ingredients": {
+    "logoUrl": "https://www.accordwildlifepench.com/web/themes/images/logo.jpg",
+    "brandColors": {
+      "primaryColor": "#FFFFFF",
+      "secondaryColor": "#000000",
+      "accentColor": "#FF0000"
+    },
+    "fonts": {
+      "headlineFont": "Outfit",
+      "bodyFont": "WorkSans"
+    },
+    "productImages": [
+      "https://www.accordwildlifepench.com/web/banners/47897.jpg",
+      "https://www.accordwildlifepench.com/web/banners/63721.jpg"
+    ],
+    "referenceImage": "http://hotelroyalorbit.com//web/uploads/"
+  },
+  "displayText": {
+    "headline": "Crafted for Comfort",
+    "offer": "Reach New Heights of Relaxation",
+    "subheading": "Delve into meticulously designed luxury experiences.",
+    "date": "Reserve Your Room Today",
+    "footer": "*Subject to availability."
+  },
+  "style": "luxurious craftsmanship, premium allure",
+  "description": "Products shine against a plush charcoal backdrop, a reflection showcasing the sophistication and quality of materials."
+}

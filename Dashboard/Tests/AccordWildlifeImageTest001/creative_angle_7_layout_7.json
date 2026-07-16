@@ -1,0 +1,30 @@
+{
+  "angle_id": 7,
+  "layout_id": 7,
+  "ingredients": {
+    "logoUrl": "https://www.accordwildlifepench.com/web/themes/images/logo.jpg",
+    "brandColors": {
+      "primaryColor": "#FFFFFF",
+      "secondaryColor": "#000000",
+      "accentColor": "#FF0000"
+    },
+    "fonts": {
+      "headlineFont": "Outfit",
+      "bodyFont": "WorkSans"
+    },
+    "productImages": [
+      "https://www.accordwildlifepench.com/web/banners/63723.jpg",
+      "https://www.accordwildlifepench.com/web/themes/images/about.jpg"
+    ],
+    "referenceImage": "http://hotelroyalorbit.com//web/uploads/"
+  },
+  "displayText": {
+    "headline": "Adventure Awaits in Pench",
+    "offer": "Explore with Personalized Tours",
+    "subheading": "Thrill and serenity, all in one place.",
+    "date": "Seasonal tours available",
+    "footer": "Eco-friendly initiatives included."
+  },
+  "style": "Adventure-driven layout with bold imagery and calls to action",
+  "description": "Accent on adventure highlights the allure of a personalized wildlife journey. Breathtaking imagery and strategic CTA placements encourage potential visitors to connect with the rare thrill of exploration."
+}

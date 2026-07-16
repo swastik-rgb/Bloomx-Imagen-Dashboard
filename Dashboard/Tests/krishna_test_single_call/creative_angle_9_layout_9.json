@@ -1,0 +1,29 @@
+{
+  "angle_id": 9,
+  "layout_id": 9,
+  "ingredients": {
+    "logoUrl": "https://krishnafurniture.com/cdn/shop/files/Krishna_Furniture_logo.png?v=1783772577&width=260",
+    "brandColors": {
+      "primaryColor": "#0C0A09",
+      "secondaryColor": "#FAFAFA",
+      "accentColor": "#DC2626"
+    },
+    "fonts": {
+      "headlineFont": "Outfit",
+      "bodyFont": "WorkSans"
+    },
+    "productImages": [
+      "https://krishnafurniture.com/cdn/shop/files/Krishna_Furniture_Dining_Sets.webp?v=1783764972&width=2200"
+    ],
+    "referenceImage": "https://krishnafurniture.com/cdn/shop/files/sofas_73506b6e-7d34-49a9-bc9f-e7f9276acefa.jpg?v=1783764884&width=2200"
+  },
+  "displayText": {
+    "headline": "A Warm Welcome Starts Here",
+    "offer": "EXCLUSIVE FESTIVE FAMILY UPGRADES",
+    "subheading": "Gifts of warmth & gathering",
+    "date": "Festive Season Launch",
+    "footer": "Visit us in Ghitorni, Noida, Faridabad & Gurgaon."
+  },
+  "style": "commercial product photography minimalist modern High-Contrast Spotlight style",
+  "description": "Creative concept detail: High-Contrast Spotlight visual layout style. A dark low-key backdrop holds a highly concentrated, dramatic ray of spotlight beaming directly onto the elegant dining table, accenting its rich marble patterns and gleaming metallic chairs."
+}

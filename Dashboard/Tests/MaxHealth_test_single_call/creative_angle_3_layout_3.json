@@ -1,0 +1,30 @@
+{
+  "angle_id": 3,
+  "layout_id": 3,
+  "ingredients": {
+    "logoUrl": "https://www.maxhealthcare.in/img/brandLogoNew.svg",
+    "brandColors": {
+      "primaryColor": "#0C3E75",
+      "secondaryColor": "#009384",
+      "accentColor": "#FFA000"
+    },
+    "fonts": {
+      "headlineFont": "Outfit",
+      "bodyFont": "WorkSans"
+    },
+    "productImages": [
+      "https://max-website20-images.s3.ap-south-1.amazonaws.com/new_program_da9783fc9a.jpg",
+      "https://max-website20-images.s3.ap-south-1.amazonaws.com/Main_Page_Banner_Smart_bc9b6e0286.jpeg"
+    ],
+    "referenceImage": "https://www.maxhealthcare.in/img/emergency.png"
+  },
+  "displayText": {
+    "headline": "From Chronic Pain to Restored Mobility",
+    "offer": "REVOLUTIONARY MUSCULOSKELETAL SCIENCES",
+    "subheading": "Leave behind the limitations of joint pain. Our advanced orthopaedic robotics and top-tier surgeons bridge the gap to your active, pain-free lifestyle.",
+    "date": "Consultations Open This Month",
+    "footer": "Nanavati-Max & BLK-Max Orthopaedic Excellence."
+  },
+  "style": "Dynamic depth, floating clinical precision elements, soft teal glow.",
+  "description": "A high-tech titanium artificial joint component floating mid-air, casting a realistic soft shadow onto a gradient teal-to-navy background. Subtle glowing blue lines trace the range of motion."
+}

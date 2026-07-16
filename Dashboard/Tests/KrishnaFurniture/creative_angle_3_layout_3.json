@@ -1,0 +1,28 @@
+{
+  "ingredients": {
+    "logoUrl": "https://images.unsplash.com/photo-1516841273335-e39b37888115?auto=format&fit=crop&w=200&h=100&q=80",
+    "brandColors": {
+      "primaryColor": "#0D0D11",
+      "secondaryColor": "#FFFFFF",
+      "accentColor": "#8A2BE2"
+    },
+    "fonts": {
+      "headlineFont": "Italiana",
+      "bodyFont": "Lora"
+    },
+    "productImages": [
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&h=600&q=80",
+      "https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=600&h=600&q=80"
+    ],
+    "referenceImage": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&h=600&q=80"
+  },
+  "displayText": {
+    "headline": "From Restless Nights to Restorative Calm.",
+    "offer": "SAVE 20% FOR A LIMITED TIME",
+    "subheading": "Meet the Aura Ring. Your bridge to aligned wellness.",
+    "date": "Available Now",
+    "footer": "*Free shipping & 30-day trial included."
+  },
+  "style": "commercial product photography minimalist modern linear gradient float glow effects",
+  "description": "An elegant representation of the Linear Gradient Float layout. The background features a smooth, deep obsidian-to-midnight-indigo linear gradient, illuminated by a soft, ethereal violet glow radiating from the center. The product, a sleek and reflective metallic ring, is suspended weightlessly mid-air at a dynamic 45-degree angle, casting a faint, soft-focused shadow onto a semi-translucent glass shelf below. Subtle, out-of-focus light particles drift gracefully around the product to emphasize the weightless, transformative theme of going from chaotic energy to absolute peace."
+}

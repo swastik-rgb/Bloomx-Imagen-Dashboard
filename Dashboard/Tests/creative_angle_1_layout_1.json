@@ -1,0 +1,30 @@
+{
+  "angle_id": 1,
+  "layout_id": 1,
+  "ingredients": {
+    "logoUrl": "https://www.accordwildlifepench.com/web/themes/images/logo.jpg",
+    "brandColors": {
+      "primaryColor": "#FFFFFF",
+      "secondaryColor": "#000000",
+      "accentColor": "#FF0000"
+    },
+    "fonts": {
+      "headlineFont": "Outfit",
+      "bodyFont": "WorkSans"
+    },
+    "productImages": [
+      "http://hotelroyalorbit.com//web/uploads/",
+      "https://www.accordwildlifepench.com/web/banners/26376.jpg"
+    ],
+    "referenceImage": "http://hotelroyalorbit.com//web/uploads/"
+  },
+  "displayText": {
+    "headline": "Welcome to Luxurious Wilderness",
+    "offer": "Enjoy 20% off your first stay",
+    "subheading": "Dive into nature's lap with upscale amenities.",
+    "date": "Offer valid until 31st December 2023",
+    "footer": "Terms and conditions apply."
+  },
+  "style": "Asymmetric left-aligned text layout, minimal background",
+  "description": "The ad employs a Swiss Grid style with the headline occupying the top left, followed by neatly aligned text blocks that communicate the offer and subheading below it. The background is a subtle overlay of lush green scenery to complement the text."
+}

@@ -1,0 +1,30 @@
+{
+  "angle_id": 10,
+  "layout_id": 10,
+  "ingredients": {
+    "logoUrl": "https://krishnafurniture.com/cdn/shop/files/Krishna_Furniture_logo.png?v=1783772577&width=260",
+    "brandColors": {
+      "primaryColor": "#18181B",
+      "secondaryColor": "#FAFAFA",
+      "accentColor": "#A16207"
+    },
+    "fonts": {
+      "headlineFont": "Italiana",
+      "bodyFont": "Lora"
+    },
+    "productImages": [
+      "https://krishnafurniture.com/cdn/shop/files/sofas_73506b6e-7d34-49a9-bc9f-e7f9276acefa.jpg?v=1783764884&width=2200",
+      "https://krishnafurniture.com/cdn/shop/files/Exchange_offer_at_krishna_furniture.jpg?v=1783777335&width=2200"
+    ],
+    "referenceImage": "https://krishnafurniture.com/cdn/shop/files/sofas_73506b6e-7d34-49a9-bc9f-e7f9276acefa.jpg?v=1783764884&width=2200"
+  },
+  "displayText": {
+    "headline": "Furniture Built for Generations",
+    "offer": "PREMIUM HEIRLOOM COLLECTIONS",
+    "subheading": "Investment that appreciates in comfort",
+    "date": "Lifetime Construction",
+    "footer": "Trusted by generations. Made with love."
+  },
+  "style": "commercial product photography minimalist modern Minimal Collage style",
+  "description": "Creative concept detail: Minimal Collage visual layout style. Staggered overlapping boxes showcase different macro textures of the wood grain, soft leather close-ups, and the final sofa set. Sophisticated architectural crop marks frame the beautiful layout elements."
+}

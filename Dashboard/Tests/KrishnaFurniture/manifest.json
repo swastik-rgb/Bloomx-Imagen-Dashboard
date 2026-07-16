@@ -1,0 +1,333 @@
+[
+  {
+    "id": "creative_angle_1_layout_1",
+    "angle_id": 1,
+    "angle_name": "AIDA (Attention, Interest, Desire, Action) - Brand Story",
+    "layout_id": 1,
+    "layout_name": "Swiss Grid (Asymmetric left-aligned text layout, minimal background)",
+    "json_file": "creative_angle_1_layout_1.json",
+    "prompt_file": "creative_angle_1_layout_1.txt",
+    "data": {
+      "ingredients": {
+        "logoUrl": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=200",
+        "brandColors": {
+          "primaryColor": "#111111",
+          "secondaryColor": "#F5F5F7",
+          "accentColor": "#FF3B30"
+        },
+        "fonts": {
+          "headlineFont": "Outfit",
+          "bodyFont": "WorkSans"
+        },
+        "productImages": [
+          "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800",
+          "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&q=80&w=800"
+        ],
+        "referenceImage": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800"
+      },
+      "displayText": {
+        "headline": "DESIGNED TO ENDURE.",
+        "offer": "THE CHRONOGRAPH / $185",
+        "subheading": "Form meets function in our purest expression.",
+        "date": "Available Now",
+        "footer": "Shop the Norden Collection."
+      },
+      "style": "commercial product photography minimalist modern Swiss Grid asymmetric left-aligned",
+      "description": "An asymmetric Swiss Grid layout built on a strict mathematical structure. The background is a clean, minimal off-white. The bold headline 'DESIGNED TO ENDURE' is set in a heavy black Outfit typeface, left-aligned in the top-left quadrant next to a small, striking Swiss Red accent block. The primary product image, featuring a highly-detailed minimalist watch, is placed off-center in the right-hand column, balancing the heavy left-aligned typography. Additional narrative body copy sits below the headline, respecting the vertical grid lines to maintain a high-end editorial and modern aesthetic."
+    }
+  },
+  {
+    "id": "creative_angle_2_layout_2",
+    "angle_id": 2,
+    "angle_name": "PAS (Problem, Agitate, Solution) - Core Pain Point",
+    "layout_id": 2,
+    "layout_name": "Marble Pedestal (Centered text, products balanced on a white marble platform)",
+    "json_file": "creative_angle_2_layout_2.json",
+    "prompt_file": "creative_angle_2_layout_2.txt",
+    "data": {
+      "ingredients": {
+        "logoUrl": "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=150&q=80",
+        "brandColors": {
+          "primaryColor": "#1C2E24",
+          "secondaryColor": "#FDFBF7",
+          "accentColor": "#D4AF37"
+        },
+        "fonts": {
+          "headlineFont": "Italiana",
+          "bodyFont": "Lora"
+        },
+        "productImages": [
+          "https://images.unsplash.com/photo-1608248597481-496100c80836?auto=format&fit=crop&w=600&q=80",
+          "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=600&q=80"
+        ],
+        "referenceImage": "https://images.unsplash.com/photo-1608248597481-496100c80836?auto=format&fit=crop&w=600&q=80"
+      },
+      "displayText": {
+        "headline": "TIRED OF DULL SKIN?",
+        "offer": "SAVE 20% TODAY",
+        "subheading": "Dehydration and fatigue age your skin faster. Our active botanical serum deeply restores natural radiance from within.",
+        "date": "Limited Time Only",
+        "footer": "*Free shipping on orders over $50. T&Cs apply."
+      },
+      "style": "commercial luxury product photography minimalist marble platform pedestal centered typography",
+      "description": "Designed using the Marble Pedestal template: Centered elegant Italiana headline text acts as the focal anchor at the top. The featured skincare bottles are perfectly balanced on a textured white marble pedestal block in the lower half of the frame. Soft, warm directional light from the side casts delicate shadows against an alabaster wall, emphasizing a luxury editorial aesthetic."
+    }
+  },
+  {
+    "id": "creative_angle_3_layout_3",
+    "angle_id": 3,
+    "angle_name": "BAB (Before-After-Bridge) - Transformation",
+    "layout_id": 3,
+    "layout_name": "Linear Gradient Float (Glow effects, products suspended mid-air with soft shadows)",
+    "json_file": "creative_angle_3_layout_3.json",
+    "prompt_file": "creative_angle_3_layout_3.txt",
+    "data": {
+      "ingredients": {
+        "logoUrl": "https://images.unsplash.com/photo-1516841273335-e39b37888115?auto=format&fit=crop&w=200&h=100&q=80",
+        "brandColors": {
+          "primaryColor": "#0D0D11",
+          "secondaryColor": "#FFFFFF",
+          "accentColor": "#8A2BE2"
+        },
+        "fonts": {
+          "headlineFont": "Italiana",
+          "bodyFont": "Lora"
+        },
+        "productImages": [
+          "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&h=600&q=80",
+          "https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=600&h=600&q=80"
+        ],
+        "referenceImage": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&h=600&q=80"
+      },
+      "displayText": {
+        "headline": "From Restless Nights to Restorative Calm.",
+        "offer": "SAVE 20% FOR A LIMITED TIME",
+        "subheading": "Meet the Aura Ring. Your bridge to aligned wellness.",
+        "date": "Available Now",
+        "footer": "*Free shipping & 30-day trial included."
+      },
+      "style": "commercial product photography minimalist modern linear gradient float glow effects",
+      "description": "An elegant representation of the Linear Gradient Float layout. The background features a smooth, deep obsidian-to-midnight-indigo linear gradient, illuminated by a soft, ethereal violet glow radiating from the center. The product, a sleek and reflective metallic ring, is suspended weightlessly mid-air at a dynamic 45-degree angle, casting a faint, soft-focused shadow onto a semi-translucent glass shelf below. Subtle, out-of-focus light particles drift gracefully around the product to emphasize the weightless, transformative theme of going from chaotic energy to absolute peace."
+    }
+  },
+  {
+    "id": "creative_angle_4_layout_4",
+    "angle_id": 4,
+    "angle_name": "Social Proof & Trust (Testimonials/Metrics)",
+    "layout_id": 4,
+    "layout_name": "Diagonal Split-Screen (Two-tone background dividing text and product zones)",
+    "json_file": "creative_angle_4_layout_4.json",
+    "prompt_file": "creative_angle_4_layout_4.txt",
+    "data": {
+      "ingredients": {
+        "logoUrl": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=150&h=150&q=80",
+        "brandColors": {
+          "primaryColor": "#1C2E24",
+          "secondaryColor": "#F9F6F0",
+          "accentColor": "#D4AF37"
+        },
+        "fonts": {
+          "headlineFont": "Italiana",
+          "bodyFont": "Lora"
+        },
+        "productImages": [
+          "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=600&q=80"
+        ],
+        "referenceImage": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=600&q=80"
+      },
+      "displayText": {
+        "headline": "Loved by 15,000+ Skin Enthusiasts",
+        "offer": "TRY RISK-FREE FOR 30 DAYS",
+        "subheading": "98% noticed visible radiance within two weeks.",
+        "date": "RATED 4.9 / 5.0 STARS",
+        "footer": "*Based on an independent 2024 consumer perception study."
+      },
+      "style": "luxury editorial minimalist product photography diagonal split-screen two-tone",
+      "description": "A striking diagonal split-screen layout dynamically divides the canvas. The upper-left triangular zone is bathed in deep forest green (#1C2E24), serving as a rich canvas for the elegant Italiana and Lora text elements, rendered in warm cream and accented gold. The lower-right triangular zone provides a clean, alabaster-cream (#F9F6F0) backdrop that highlights the premium amber glass serum bottle. The precise diagonal divide creates an elegant, high-contrast composition that immediately draws attention to the trust metrics and high product ratings."
+    }
+  },
+  {
+    "id": "creative_angle_5_layout_5",
+    "angle_id": 5,
+    "angle_name": "Product Feature Highlight (Materials & Craftsmanship)",
+    "layout_id": 5,
+    "layout_name": "Studio Reflective (Deep charcoal background, products placed on reflective black glass)",
+    "json_file": "creative_angle_5_layout_5.json",
+    "prompt_file": "creative_angle_5_layout_5.txt",
+    "data": {
+      "ingredients": {
+        "logoUrl": "https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?auto=format&fit=crop&w=150&h=50&q=80",
+        "brandColors": {
+          "primaryColor": "#121212",
+          "secondaryColor": "#1A1A1A",
+          "accentColor": "#D4AF37"
+        },
+        "fonts": {
+          "headlineFont": "Italiana",
+          "bodyFont": "Lora"
+        },
+        "productImages": [
+          "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&h=600&q=80",
+          "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=600&h=600&q=80"
+        ],
+        "referenceImage": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&h=600&q=80"
+      },
+      "displayText": {
+        "headline": "Engineered to Endure",
+        "offer": "GRADE 5 TITANIUM",
+        "subheading": "Machined from solid aerospace billet and fitted with sapphire crystal.",
+        "date": "EDITION NO. 04",
+        "footer": "Hand-assembled. Guaranteed for life."
+      },
+      "style": "commercial product photography minimalist modern Studio Reflective deep charcoal background reflective black glass gold accents",
+      "description": "Implementing the Studio Reflective layout template: The premium mechanical objects are carefully positioned on a highly polished, reflective black glass pane. A deep charcoal gray background fades into obsidian shadows, while a precise, narrow overhead spotlight creates a perfect, crisp mirrored reflection underneath the titanium housing. The gold accent branding is subtly embossed in the top corner."
+    }
+  },
+  {
+    "id": "creative_angle_7_layout_7",
+    "angle_id": 7,
+    "angle_name": "The Explorer/Prestige (Psychological luxury appeal)",
+    "layout_id": 7,
+    "layout_name": "Monolith Frame (Large geometric backing blocks behind the main product)",
+    "json_file": "creative_angle_7_layout_7.json",
+    "prompt_file": "creative_angle_7_layout_7.txt",
+    "data": {
+      "ingredients": {
+        "logoUrl": "https://images.unsplash.com/photo-1516841273335-e39b37888115?auto=format&fit=crop&w=150&h=50&q=80",
+        "brandColors": {
+          "primaryColor": "#121212",
+          "secondaryColor": "#F5F2EB",
+          "accentColor": "#D4AF37"
+        },
+        "fonts": {
+          "headlineFont": "Italiana",
+          "bodyFont": "Lora"
+        },
+        "productImages": [
+          "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80"
+        ],
+        "referenceImage": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80"
+      },
+      "displayText": {
+        "headline": "THE PRESTIGE OF DISCOVERY",
+        "offer": "LIMITED EDITION NO. 01",
+        "subheading": "Crafted for those who command the horizon.",
+        "date": "RESERVATIONS NOW OPEN",
+        "footer": "Individually numbered. T&Cs apply."
+      },
+      "style": "commercial product photography minimalist modern Monolith Frame geometric high-contrast luxury matte black champagne gold",
+      "description": "Implementing the Monolith Frame layout template: The luxury timepiece is dramatically presented in front of towering, offset geometric slabs of dark charcoal slate and warm gold-brushed metal. These monolithic blocks create layered depth and frame the product with a sharp, architectural silhouette. Dramatic directional lighting from above casts crisp shadows, accentuating the refined materials and premium explorer appeal."
+    }
+  },
+  {
+    "id": "creative_angle_8_layout_8",
+    "angle_id": 8,
+    "angle_name": "Minimalist/Contemporary Integration",
+    "layout_id": 8,
+    "layout_name": "Warm Editorial (Beige paper textures, classic serif margins, clinical markers)",
+    "json_file": "creative_angle_8_layout_8.json",
+    "prompt_file": "creative_angle_8_layout_8.txt",
+    "data": {
+      "ingredients": {
+        "logoUrl": "https://images.unsplash.com/photo-1505944224953-21329402f6b9?q=80&w=200&auto=format&fit=crop",
+        "brandColors": {
+          "primaryColor": "#1C1A17",
+          "secondaryColor": "#F5EFEB",
+          "accentColor": "#C58B75"
+        },
+        "fonts": {
+          "headlineFont": "Italiana",
+          "bodyFont": "Lora"
+        },
+        "productImages": [
+          "https://images.unsplash.com/photo-1527018601619-a508a2be00cd?q=80&w=600&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=600&auto=format&fit=crop"
+        ],
+        "referenceImage": "https://images.unsplash.com/photo-1527018601619-a508a2be00cd?q=80&w=600&auto=format&fit=crop"
+      },
+      "displayText": {
+        "headline": "The Art of Essential Living",
+        "offer": "COLLECTION N\u00b0 04",
+        "subheading": "Meticulously Crafted Staples",
+        "date": "Autumn / Winter 2024",
+        "footer": "*Available for a limited time."
+      },
+      "style": "warm editorial beige paper texture classic serif margins clinical markers minimalist modern contemporary integration",
+      "description": "Designed using a Warm Editorial visual layout style. The canvas features a tactile beige handmade paper texture as the background, bounded by wide, generous margins reminiscent of high-fashion print magazines. The product is framed off-center, accented by delicate charcoal grey lines and tiny clinical-style numbering markers (e.g., '01', '02') that point to key craft details. Classic serif typography from the Italiana and Lora pairing establishes an intellectual, curated tone, perfectly capturing the Minimalist/Contemporary Integration angle."
+    }
+  },
+  {
+    "id": "creative_angle_9_layout_9",
+    "angle_id": 9,
+    "angle_name": "Emotional Welcome (Festive/Hospitality)",
+    "layout_id": 9,
+    "layout_name": "High-Contrast Spotlight (Dramatic low-key spotlight beam highlighting the product)",
+    "json_file": "creative_angle_9_layout_9.json",
+    "prompt_file": "creative_angle_9_layout_9.txt",
+    "data": {
+      "ingredients": {
+        "logoUrl": "https://images.unsplash.com/photo-1508746829417-e6f548d8d6ed?auto=format&fit=crop&w=150&q=80",
+        "brandColors": {
+          "primaryColor": "#0D0D0D",
+          "secondaryColor": "#F5F2EB",
+          "accentColor": "#D4AF37"
+        },
+        "fonts": {
+          "headlineFont": "Italiana",
+          "bodyFont": "Lora"
+        },
+        "productImages": [
+          "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=600&q=80",
+          "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80"
+        ],
+        "referenceImage": "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=600&q=80"
+      },
+      "displayText": {
+        "headline": "The Warmth of Coming Home",
+        "offer": "COMPLIMENTARY HOSTING GIFT",
+        "subheading": "with our festive seasonal collection",
+        "date": "Throughout December",
+        "footer": "*Receive a signature welcome set on orders over $150."
+      },
+      "style": "luxury product photography dramatic low-key lighting single warm spotlight beam deep shadows gold accents ultra-minimalist editorial",
+      "description": "A stark, high-contrast composition featuring a dark, textured obsidian stone backdrop. A single, dramatic golden-hued spotlight beam cuts diagonally across the canvas from the top-left, casting a brilliant highlight directly onto the luxury Vesper scented candle. The surrounding areas fade into rich, velvety shadows. The text is rendered in elegant Italiana and Lora typography, placed carefully in the negative space opposite the beam to maintain perfect structural balance."
+    }
+  },
+  {
+    "id": "creative_angle_10_layout_10",
+    "angle_id": 10,
+    "angle_name": "Legacy & Long-Term Investment Value",
+    "layout_id": 10,
+    "layout_name": "Minimal Collage (Overlaying multiple product angles, staggered offsets)",
+    "json_file": "creative_angle_10_layout_10.json",
+    "prompt_file": "creative_angle_10_layout_10.txt",
+    "data": {
+      "ingredients": {
+        "logoUrl": "https://images.unsplash.com/photo-1547949003-9792a18a2601?auto=format&fit=crop&w=150&q=80",
+        "brandColors": {
+          "primaryColor": "#1C1917",
+          "secondaryColor": "#F5F5F4",
+          "accentColor": "#C5A880"
+        },
+        "fonts": {
+          "headlineFont": "Italiana",
+          "bodyFont": "Lora"
+        },
+        "productImages": [
+          "https://images.unsplash.com/photo-1547949003-9792a18a2601?auto=format&fit=crop&w=1200&q=80",
+          "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=1200&q=80"
+        ],
+        "referenceImage": "https://images.unsplash.com/photo-1547949003-9792a18a2601?auto=format&fit=crop&w=1200&q=80"
+      },
+      "displayText": {
+        "headline": "Designed For A Lifetime. And The One After.",
+        "offer": "INVEST IN LEGACY",
+        "subheading": "The Heirloom Briefcase Collection",
+        "date": "ESTABLISHED TO ENDURE",
+        "footer": "Every piece is numbered, documented, and guaranteed for life."
+      },
+      "style": "minimalist editorial premium luxury minimal collage asymmetrical staggered overlapping",
+      "description": "An editorial minimal collage layout emphasizing timeless investment. Two distinct product frames overlap with staggered offsets over a clean, warm cream (#F5F5F4) backdrop. The primary image showcases the structured, classic brief in full perspective, while a slightly smaller, offset frame captures a detailed macro shot of the hand-burnished edges and solid brass hardware. Deep charcoal typography elements are positioned in the negative space, creating a balanced, high-end gallery feel."
+    }
+  }
+]

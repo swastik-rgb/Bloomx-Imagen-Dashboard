@@ -1,0 +1,392 @@
+[
+  {
+    "id": "creative_angle_1_layout_1",
+    "angle_id": 1,
+    "angle_name": "AIDA (Attention, Interest, Desire, Action) - Brand Story",
+    "layout_id": 1,
+    "layout_name": "Swiss Grid (Asymmetric left-aligned text layout, minimal background)",
+    "json_file": "creative_angle_1_layout_1.json",
+    "prompt_file": "creative_angle_1_layout_1.txt",
+    "data": {
+      "angle_id": 1,
+      "layout_id": 1,
+      "ingredients": {
+        "logoUrl": "https://www.maxhealthcare.in/img/brandLogoNew.svg",
+        "brandColors": {
+          "primaryColor": "#0C3E75",
+          "secondaryColor": "#009384",
+          "accentColor": "#FFA000"
+        },
+        "fonts": {
+          "headlineFont": "Outfit",
+          "bodyFont": "WorkSans"
+        },
+        "productImages": [
+          "https://www.maxhealthcare.in/img/emergency.png",
+          "https://max-website20-images.s3.ap-south-1.amazonaws.com/internal_medicine_banner_31ef89f3bf.jpg"
+        ],
+        "referenceImage": "https://www.maxhealthcare.in/img/emergency.png"
+      },
+      "displayText": {
+        "headline": "Redefining India's Healthcare Standards",
+        "offer": "COMPREHENSIVE MULTISPECIALITY CARE",
+        "subheading": "From cutting-edge diagnostics to world-class recovery, Max Healthcare brings together leading specialists and advanced medicine under one trusted network.",
+        "date": "24/7 Care Available",
+        "footer": "Max Healthcare Network - Delhi NCR, Mumbai, Punjab & Uttarakhand."
+      },
+      "style": "Asymmetric, clean Swiss typography, heavy grids, minimal off-white background.",
+      "description": "Clean grid layout with a prominent left-aligned bold headline in Outfit font. The right panel features high-resolution clinical research labs. Modern minimal borders segmenting the emergency contacts and location details in GeistMono or WorkSans."
+    }
+  },
+  {
+    "id": "creative_angle_2_layout_2",
+    "angle_id": 2,
+    "angle_name": "PAS (Problem, Agitate, Solution) - Core Pain Point",
+    "layout_id": 2,
+    "layout_name": "Marble Pedestal (Centered text, products balanced on a white marble platform)",
+    "json_file": "creative_angle_2_layout_2.json",
+    "prompt_file": "creative_angle_2_layout_2.txt",
+    "data": {
+      "angle_id": 2,
+      "layout_id": 2,
+      "ingredients": {
+        "logoUrl": "https://www.maxhealthcare.in/img/brandLogoNew.svg",
+        "brandColors": {
+          "primaryColor": "#0C3E75",
+          "secondaryColor": "#009384",
+          "accentColor": "#FFA000"
+        },
+        "fonts": {
+          "headlineFont": "Outfit",
+          "bodyFont": "WorkSans"
+        },
+        "productImages": [
+          "https://max-website20-images.s3.ap-south-1.amazonaws.com/internal_medicine_banner_31ef89f3bf.jpg",
+          "https://max-website20-images.s3.ap-south-1.amazonaws.com/new_program_da9783fc9a.jpg"
+        ],
+        "referenceImage": "https://www.maxhealthcare.in/img/emergency.png"
+      },
+      "displayText": {
+        "headline": "When Seconds Count, Uncertainty Is Not an Option",
+        "offer": "24/7 EMERGENCY & BRAIN ATTACK HOTLINE",
+        "subheading": "Critical moments demand instant, world-class intervention. Access India's top-tier emergency teams and advanced cardiac/stroke protocols immediately.",
+        "date": "Emergency Response: 011-40554055",
+        "footer": "Accredited Level-1 Trauma Centers across India."
+      },
+      "style": "Centered, monumental, marble platform, pure trust and prestige.",
+      "description": "A central white marble pedestal holding a glowing crimson emergency beacon next to a medical stethoscope, symbolizing absolute stability and rapid response. Soft focus, premium studio lighting."
+    }
+  },
+  {
+    "id": "creative_angle_3_layout_3",
+    "angle_id": 3,
+    "angle_name": "BAB (Before-After-Bridge) - Transformation",
+    "layout_id": 3,
+    "layout_name": "Linear Gradient Float (Glow effects, products suspended mid-air with soft shadows)",
+    "json_file": "creative_angle_3_layout_3.json",
+    "prompt_file": "creative_angle_3_layout_3.txt",
+    "data": {
+      "angle_id": 3,
+      "layout_id": 3,
+      "ingredients": {
+        "logoUrl": "https://www.maxhealthcare.in/img/brandLogoNew.svg",
+        "brandColors": {
+          "primaryColor": "#0C3E75",
+          "secondaryColor": "#009384",
+          "accentColor": "#FFA000"
+        },
+        "fonts": {
+          "headlineFont": "Outfit",
+          "bodyFont": "WorkSans"
+        },
+        "productImages": [
+          "https://max-website20-images.s3.ap-south-1.amazonaws.com/new_program_da9783fc9a.jpg",
+          "https://max-website20-images.s3.ap-south-1.amazonaws.com/Main_Page_Banner_Smart_bc9b6e0286.jpeg"
+        ],
+        "referenceImage": "https://www.maxhealthcare.in/img/emergency.png"
+      },
+      "displayText": {
+        "headline": "From Chronic Pain to Restored Mobility",
+        "offer": "REVOLUTIONARY MUSCULOSKELETAL SCIENCES",
+        "subheading": "Leave behind the limitations of joint pain. Our advanced orthopaedic robotics and top-tier surgeons bridge the gap to your active, pain-free lifestyle.",
+        "date": "Consultations Open This Month",
+        "footer": "Nanavati-Max & BLK-Max Orthopaedic Excellence."
+      },
+      "style": "Dynamic depth, floating clinical precision elements, soft teal glow.",
+      "description": "A high-tech titanium artificial joint component floating mid-air, casting a realistic soft shadow onto a gradient teal-to-navy background. Subtle glowing blue lines trace the range of motion."
+    }
+  },
+  {
+    "id": "creative_angle_4_layout_4",
+    "angle_id": 4,
+    "angle_name": "Social Proof & Trust (Testimonials/Metrics)",
+    "layout_id": 4,
+    "layout_name": "Diagonal Split-Screen (Two-tone background dividing text and product zones)",
+    "json_file": "creative_angle_4_layout_4.json",
+    "prompt_file": "creative_angle_4_layout_4.txt",
+    "data": {
+      "angle_id": 4,
+      "layout_id": 4,
+      "ingredients": {
+        "logoUrl": "https://www.maxhealthcare.in/img/brandLogoNew.svg",
+        "brandColors": {
+          "primaryColor": "#0C3E75",
+          "secondaryColor": "#009384",
+          "accentColor": "#FFA000"
+        },
+        "fonts": {
+          "headlineFont": "Outfit",
+          "bodyFont": "WorkSans"
+        },
+        "productImages": [
+          "https://max-website20-images.s3.ap-south-1.amazonaws.com/Main_Page_Banner_Smart_bc9b6e0286.jpeg",
+          "https://max-website20-images.s3.ap-south-1.amazonaws.com/small_Focal_One_Announcement_Banner_b4f8b21c43.jpeg"
+        ],
+        "referenceImage": "https://www.maxhealthcare.in/img/emergency.png"
+      },
+      "displayText": {
+        "headline": "Chosen by Over 34 Lakh Patients Annually",
+        "offer": "INDIA'S MOST TRUSTED HEALTHCARE NETWORK",
+        "subheading": "Consistently ranked among the best multispeciality hospitals, backed by 3,000+ world-class doctors and pioneering clinical research.",
+        "date": "Decades of Healing Excellence",
+        "footer": "Accredited by NABH & JCI."
+      },
+      "style": "High contrast, sharp geometric split-screen, clinical authority.",
+      "description": "A sharp diagonal division: the top-left in deep blue hosting the trust metrics and bold text; the bottom-right featuring a warm, authentic portrait of a senior physician smiling warmly at a recovering patient."
+    }
+  },
+  {
+    "id": "creative_angle_5_layout_5",
+    "angle_id": 5,
+    "angle_name": "Product Feature Highlight (Materials & Craftsmanship)",
+    "layout_id": 5,
+    "layout_name": "Studio Reflective (Deep charcoal background, products placed on reflective black glass)",
+    "json_file": "creative_angle_5_layout_5.json",
+    "prompt_file": "creative_angle_5_layout_5.txt",
+    "data": {
+      "angle_id": 5,
+      "layout_id": 5,
+      "ingredients": {
+        "logoUrl": "https://www.maxhealthcare.in/img/brandLogoNew.svg",
+        "brandColors": {
+          "primaryColor": "#0C3E75",
+          "secondaryColor": "#009384",
+          "accentColor": "#FFA000"
+        },
+        "fonts": {
+          "headlineFont": "Outfit",
+          "bodyFont": "WorkSans"
+        },
+        "productImages": [
+          "https://max-website20-images.s3.ap-south-1.amazonaws.com/small_Focal_One_Announcement_Banner_b4f8b21c43.jpeg",
+          "https://max-website20-images.s3.ap-south-1.amazonaws.com/small_Colorectal_Clinic_Digital_Banner_72x36_B_0235fc183a.jpg"
+        ],
+        "referenceImage": "https://www.maxhealthcare.in/img/emergency.png"
+      },
+      "displayText": {
+        "headline": "Precision That Redefines Cancer Care",
+        "offer": "ADVANCED ROBOTIC ONCOLOGY SYSTEMS",
+        "subheading": "Harnessing Next-Generation surgical robotics and targeted radiation therapies to eliminate tumors with sub-millimeter accuracy.",
+        "date": "Appointments via Oncology Board",
+        "footer": "Leading-edge cancer care units at Saket, Vaishali & Patparganj."
+      },
+      "style": "Ultra-premium dark mode, obsidian glass reflection, high-tech spotlight.",
+      "description": "Deep charcoal background. A sleek, metallic surgical robotic arm is positioned on a highly reflective black glass platform, caught in a dramatic pinpoint spotlight highlighting its precise carbon-fiber joints."
+    }
+  },
+  {
+    "id": "creative_angle_6_layout_6",
+    "angle_id": 6,
+    "angle_name": "Innovation & Smart Elements",
+    "layout_id": 6,
+    "layout_name": "Botanical Minimalist (Overcast natural daylight, soft leaf shadows on concrete walls)",
+    "json_file": "creative_angle_6_layout_6.json",
+    "prompt_file": "creative_angle_6_layout_6.txt",
+    "data": {
+      "angle_id": 6,
+      "layout_id": 6,
+      "ingredients": {
+        "logoUrl": "https://www.maxhealthcare.in/img/brandLogoNew.svg",
+        "brandColors": {
+          "primaryColor": "#0C3E75",
+          "secondaryColor": "#009384",
+          "accentColor": "#FFA000"
+        },
+        "fonts": {
+          "headlineFont": "Outfit",
+          "bodyFont": "WorkSans"
+        },
+        "productImages": [
+          "https://max-website20-images.s3.ap-south-1.amazonaws.com/small_Colorectal_Clinic_Digital_Banner_72x36_B_0235fc183a.jpg",
+          "https://i3.ytimg.com/vi/G7u35XtnJIQ/sddefault.jpg"
+        ],
+        "referenceImage": "https://www.maxhealthcare.in/img/emergency.png"
+      },
+      "displayText": {
+        "headline": "Healing Spaces Designed for Faster Recovery",
+        "offer": "NEW STATE-OF-THE-ART WING AT NANAVATI-MAX",
+        "subheading": "Merging advanced therapeutic environments with top-tier medical tech. Every detail is optimized for natural light, reduced stress, and rapid healing.",
+        "date": "Now Fully Operational in Mumbai",
+        "footer": "Redefining corporate and premium healthcare spaces."
+      },
+      "style": "Natural overcast daylight, soft shadows, concrete and organic accents.",
+      "description": "Soft leaf shadows fall across a clean concrete wall. A minimalist mock-up of a premium, sunlit hospital private suite is visible, emphasizing healing through modern architecture and natural harmony."
+    }
+  },
+  {
+    "id": "creative_angle_7_layout_7",
+    "angle_id": 7,
+    "angle_name": "The Explorer/Prestige (Psychological luxury appeal)",
+    "layout_id": 7,
+    "layout_name": "Monolith Frame (Large geometric backing blocks behind the main product)",
+    "json_file": "creative_angle_7_layout_7.json",
+    "prompt_file": "creative_angle_7_layout_7.txt",
+    "data": {
+      "angle_id": 7,
+      "layout_id": 7,
+      "ingredients": {
+        "logoUrl": "https://www.maxhealthcare.in/img/brandLogoNew.svg",
+        "brandColors": {
+          "primaryColor": "#0C3E75",
+          "secondaryColor": "#009384",
+          "accentColor": "#FFA000"
+        },
+        "fonts": {
+          "headlineFont": "Outfit",
+          "bodyFont": "WorkSans"
+        },
+        "productImages": [
+          "https://i3.ytimg.com/vi/G7u35XtnJIQ/sddefault.jpg",
+          "https://i3.ytimg.com/vi/Dv3MsDFjLwA/sddefault.jpg"
+        ],
+        "referenceImage": "https://www.maxhealthcare.in/img/emergency.png"
+      },
+      "displayText": {
+        "headline": "Global Standards of Clinical Distinction",
+        "offer": "INTERNATIONAL PATIENT SERVICES & PREMIUM SUITES",
+        "subheading": "Offering world-class healthcare with dedicated international lounges, personalized care coordinators, and unmatched clinical outcomes in India.",
+        "date": "Seamless Global Admissions 24/7",
+        "footer": "Direct connectivity from Delhi International Airport."
+      },
+      "style": "Bold monolithic backdrops, premium golden accents, architectural weight.",
+      "description": "A massive navy-blue concrete monolith stands centered. Resting in front is an elegant gold-trimmed medical crest, symbolizing global prestige. Background features soft golden backlighting."
+    }
+  },
+  {
+    "id": "creative_angle_8_layout_8",
+    "angle_id": 8,
+    "angle_name": "Minimalist/Contemporary Integration",
+    "layout_id": 8,
+    "layout_name": "Warm Editorial (Beige paper textures, classic serif margins, clinical markers)",
+    "json_file": "creative_angle_8_layout_8.json",
+    "prompt_file": "creative_angle_8_layout_8.txt",
+    "data": {
+      "angle_id": 8,
+      "layout_id": 8,
+      "ingredients": {
+        "logoUrl": "https://www.maxhealthcare.in/img/brandLogoNew.svg",
+        "brandColors": {
+          "primaryColor": "#0C3E75",
+          "secondaryColor": "#009384",
+          "accentColor": "#FFA000"
+        },
+        "fonts": {
+          "headlineFont": "Outfit",
+          "bodyFont": "WorkSans"
+        },
+        "productImages": [
+          "https://i3.ytimg.com/vi/Dv3MsDFjLwA/sddefault.jpg",
+          "https://i3.ytimg.com/vi/NBJpTGjLu3Y/sddefault.jpg"
+        ],
+        "referenceImage": "https://www.maxhealthcare.in/img/emergency.png"
+      },
+      "displayText": {
+        "headline": "The Art of Preventative Longevity",
+        "offer": "MAX HEALTH ASSESSMENT PLATINUM PACKAGE",
+        "subheading": "Comprehensive screening designed by clinical experts to detect health risks early. Because true luxury is peace of mind.",
+        "date": "Prioritize Wellness Today",
+        "footer": "Tailored health screenings available across all major Max centers."
+      },
+      "style": "Warm beige paper texture, elegant editorial serifs, generous white space.",
+      "description": "A beige-textured workspace visual containing an elegant clinic brochure, a leather-bound notebook, and a gold-nibbed pen. Elegant clinical markers set inside fine black margins."
+    }
+  },
+  {
+    "id": "creative_angle_9_layout_9",
+    "angle_id": 9,
+    "angle_name": "Emotional Welcome (Festive/Hospitality)",
+    "layout_id": 9,
+    "layout_name": "High-Contrast Spotlight (Dramatic low-key spotlight beam highlighting the product)",
+    "json_file": "creative_angle_9_layout_9.json",
+    "prompt_file": "creative_angle_9_layout_9.txt",
+    "data": {
+      "angle_id": 9,
+      "layout_id": 9,
+      "ingredients": {
+        "logoUrl": "https://www.maxhealthcare.in/img/brandLogoNew.svg",
+        "brandColors": {
+          "primaryColor": "#0C3E75",
+          "secondaryColor": "#009384",
+          "accentColor": "#FFA000"
+        },
+        "fonts": {
+          "headlineFont": "Outfit",
+          "bodyFont": "WorkSans"
+        },
+        "productImages": [
+          "https://i3.ytimg.com/vi/NBJpTGjLu3Y/sddefault.jpg",
+          "https://i3.ytimg.com/vi/eyP7Op3JWFY/sddefault.jpg"
+        ],
+        "referenceImage": "https://www.maxhealthcare.in/img/emergency.png"
+      },
+      "displayText": {
+        "headline": "Embracing Your Family\u2019s Health Journey",
+        "offer": "COMPASSIONATE MATERNITY & NEONATAL CARE",
+        "subheading": "From the first ultrasound to the moment you bring your little one home, we surround you with warmth, expertise, and continuous safety.",
+        "date": "24/7 Maternity Support Lines",
+        "footer": "Where life begins with world-class protection."
+      },
+      "style": "Low-key lighting, soft golden focus, highly emotional atmosphere.",
+      "description": "A high-contrast scene with a dramatic, warm golden spotlight beam focused on two cradled hands gently holding a newborn baby's tiny foot, showcasing tenderness amidst clinical excellence."
+    }
+  },
+  {
+    "id": "creative_angle_10_layout_10",
+    "angle_id": 10,
+    "angle_name": "Legacy & Long-Term Investment Value",
+    "layout_id": 10,
+    "layout_name": "Minimal Collage (Overlaying multiple product angles, staggered offsets)",
+    "json_file": "creative_angle_10_layout_10.json",
+    "prompt_file": "creative_angle_10_layout_10.txt",
+    "data": {
+      "angle_id": 10,
+      "layout_id": 10,
+      "ingredients": {
+        "logoUrl": "https://www.maxhealthcare.in/img/brandLogoNew.svg",
+        "brandColors": {
+          "primaryColor": "#0C3E75",
+          "secondaryColor": "#009384",
+          "accentColor": "#FFA000"
+        },
+        "fonts": {
+          "headlineFont": "Outfit",
+          "bodyFont": "WorkSans"
+        },
+        "productImages": [
+          "https://i3.ytimg.com/vi/eyP7Op3JWFY/sddefault.jpg",
+          "https://i3.ytimg.com/vi/u3X-rkV89ko/sddefault.jpg"
+        ],
+        "referenceImage": "https://www.maxhealthcare.in/img/emergency.png"
+      },
+      "displayText": {
+        "headline": "A Legacy of Trust, Generation After Generation",
+        "offer": "THE ULTIMATE STANDARD IN MULTISPECIALITY CARE",
+        "subheading": "For decades, Max Healthcare has evolved alongside families across India, constantly upgrading our infrastructure to protect your future.",
+        "date": "Over 20 Years of Healthcare Excellence",
+        "footer": "Serving millions of families with uncompromising commitment."
+      },
+      "style": "Staggered frame overlays, modern clinical editorial, clean grid intersections.",
+      "description": "A clean collage of three overlapping images: a historic foundation shot of Max Saket, a high-tech modern MRI console screen, and a close-up of a doctor placing a reassuring hand on an elderly patient's shoulder."
+    }
+  }
+]

@@ -1,0 +1,29 @@
+{
+  "angle_id": 8,
+  "layout_id": 8,
+  "ingredients": {
+    "logoUrl": "https://krishnafurniture.com/cdn/shop/files/Krishna_Furniture_logo.png?v=1783772577&width=260",
+    "brandColors": {
+      "primaryColor": "#27272A",
+      "secondaryColor": "#FAFAF9",
+      "accentColor": "#A16207"
+    },
+    "fonts": {
+      "headlineFont": "Italiana",
+      "bodyFont": "Lora"
+    },
+    "productImages": [
+      "https://krishnafurniture.com/cdn/shop/files/sofas_73506b6e-7d34-49a9-bc9f-e7f9276acefa.jpg?v=1783764884&width=2200"
+    ],
+    "referenceImage": "https://krishnafurniture.com/cdn/shop/files/sofas_73506b6e-7d34-49a9-bc9f-e7f9276acefa.jpg?v=1783764884&width=2200"
+  },
+  "displayText": {
+    "headline": "Quiet Luxury, Loud Comfort",
+    "offer": "CURATED ROOM PACKAGES",
+    "subheading": "Harmonious structures for modern homes",
+    "date": "New Arrivals Available",
+    "footer": "Bespoke styling support is complementary."
+  },
+  "style": "commercial product photography minimalist modern Warm Editorial style",
+  "description": "Creative concept detail: Warm Editorial visual layout style. Textured warm beige paper backdrop with classic, elegant serif margins. Technical design pointers elegantly trace details of the premium sofa cushion, mapping out comfort density points."
+}

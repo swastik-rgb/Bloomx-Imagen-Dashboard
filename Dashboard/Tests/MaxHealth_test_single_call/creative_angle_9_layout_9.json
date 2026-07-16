@@ -1,0 +1,30 @@
+{
+  "angle_id": 9,
+  "layout_id": 9,
+  "ingredients": {
+    "logoUrl": "https://www.maxhealthcare.in/img/brandLogoNew.svg",
+    "brandColors": {
+      "primaryColor": "#0C3E75",
+      "secondaryColor": "#009384",
+      "accentColor": "#FFA000"
+    },
+    "fonts": {
+      "headlineFont": "Outfit",
+      "bodyFont": "WorkSans"
+    },
+    "productImages": [
+      "https://i3.ytimg.com/vi/NBJpTGjLu3Y/sddefault.jpg",
+      "https://i3.ytimg.com/vi/eyP7Op3JWFY/sddefault.jpg"
+    ],
+    "referenceImage": "https://www.maxhealthcare.in/img/emergency.png"
+  },
+  "displayText": {
+    "headline": "Embracing Your Family\u2019s Health Journey",
+    "offer": "COMPASSIONATE MATERNITY & NEONATAL CARE",
+    "subheading": "From the first ultrasound to the moment you bring your little one home, we surround you with warmth, expertise, and continuous safety.",
+    "date": "24/7 Maternity Support Lines",
+    "footer": "Where life begins with world-class protection."
+  },
+  "style": "Low-key lighting, soft golden focus, highly emotional atmosphere.",
+  "description": "A high-contrast scene with a dramatic, warm golden spotlight beam focused on two cradled hands gently holding a newborn baby's tiny foot, showcasing tenderness amidst clinical excellence."
+}

@@ -1,0 +1,28 @@
+{
+  "ingredients": {
+    "logoUrl": "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=200",
+    "brandColors": {
+      "primaryColor": "#2C302E",
+      "secondaryColor": "#F9F6F0",
+      "accentColor": "#D4AF37"
+    },
+    "fonts": {
+      "headlineFont": "Italiana",
+      "bodyFont": "Lora"
+    },
+    "productImages": [
+      "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=600",
+      "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&q=80&w=600"
+    ],
+    "referenceImage": "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=600"
+  },
+  "displayText": {
+    "headline": "Is your moisturizer quitting on you by noon?",
+    "offer": "SAVE 20% ON ELIXIR",
+    "subheading": "Standard creams sit on the surface. Experience deep, continuous cellular hydration that locks in moisture all day.",
+    "date": "Limited Time Autumn Offer",
+    "footer": "*Results clinically proven. T&Cs apply."
+  },
+  "style": "commercial product photography minimalist modern marble pedestal luxury editorial soft shadow lighting",
+  "description": "Implementing the Marble Pedestal layout template: The center of the canvas features two premium cosmetic glass bottles balanced symmetrically on a smooth, circular white Carrara marble platform. The background is a clean, warm alabaster wall with soft studio spotlights casting gentle shadows. The text is elegantly stacked and centered above the products, utilizing the sophisticated Italiana font for the headline to frame the visual beautifully."
+}

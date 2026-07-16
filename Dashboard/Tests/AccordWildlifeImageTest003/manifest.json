@@ -1,0 +1,42 @@
+[
+  {
+    "id": "creative_angle_1_layout_1",
+    "angle_id": 1,
+    "angle_name": "AIDA (Attention, Interest, Desire, Action) - Brand Story",
+    "layout_id": 1,
+    "layout_name": "Swiss Grid (Asymmetric left-aligned text layout, minimal background)",
+    "json_file": "creative_angle_1_layout_1.json",
+    "prompt_file": "creative_angle_1_layout_1.txt",
+    "image_file": null,
+    "data": {
+      "angle_id": 1,
+      "layout_id": 1,
+      "ingredients": {
+        "logoUrl": "https://www.accordwildlifepench.com/web/themes/images/logo.jpg",
+        "brandColors": {
+          "primaryColor": "#FFFFFF",
+          "secondaryColor": "#000000",
+          "accentColor": "#FF0000"
+        },
+        "fonts": {
+          "headlineFont": "Outfit",
+          "bodyFont": "WorkSans"
+        },
+        "productImages": [
+          "http://hotelroyalorbit.com//web/uploads/",
+          "https://www.accordwildlifepench.com/web/banners/26376.jpg"
+        ],
+        "referenceImage": "http://hotelroyalorbit.com//web/uploads/"
+      },
+      "displayText": {
+        "headline": "Discover Serenity at Accord Wildlife Pench",
+        "offer": "Exclusive Jungle Safari Packages",
+        "subheading": "An Unforgettable Escape into Nature's Embrace with Luxury & Comfort",
+        "date": "Limited Availability - Book Now",
+        "footer": "Experience Nature Like Never Before with Accord Wildlife Resort"
+      },
+      "style": "minimalistic, nature-inspired, editorial",
+      "description": "The ad features an asymmetric layout with a stunning image of a lush green jungle as the background. On the left, text is displayed in a serene, luxurious font. The primary headline grabs attention with rich, deep green typography that contrasts brilliantly against the natural imagery. The secondary and accent colors are subtle, providing visual interest without overpowering the photographic element. The text is organized using the Swiss grid, ensuring clarity and a clean, polished look. The attractive, upscale tone conveys the blend of adventure and tranquility available at Accord Wildlife Pench."
+    }
+  }
+]

@@ -1,0 +1,30 @@
+{
+  "angle_id": 1,
+  "layout_id": 1,
+  "ingredients": {
+    "logoUrl": "https://krishnafurniture.com/cdn/shop/files/Krishna_Furniture_logo.png?v=1783772577&width=260",
+    "brandColors": {
+      "primaryColor": "#1E293B",
+      "secondaryColor": "#F8FAFC",
+      "accentColor": "#C2410C"
+    },
+    "fonts": {
+      "headlineFont": "Italiana",
+      "bodyFont": "Lora"
+    },
+    "productImages": [
+      "https://krishnafurniture.com/cdn/shop/files/sofas_73506b6e-7d34-49a9-bc9f-e7f9276acefa.jpg?v=1783764884&width=2200",
+      "https://krishnafurniture.com/cdn/shop/collections/1_3.jpg?v=1784098922&width=320"
+    ],
+    "referenceImage": "https://krishnafurniture.com/cdn/shop/files/sofas_73506b6e-7d34-49a9-bc9f-e7f9276acefa.jpg?v=1783764884&width=2200"
+  },
+  "displayText": {
+    "headline": "Design That Speaks Before You Do",
+    "offer": "EXCLUSIVE SHOWROOM PRICING",
+    "subheading": "Premium Bespoke Sofas",
+    "date": "Valid This Season Only",
+    "footer": "Free express shipping available nationwide."
+  },
+  "style": "commercial product photography minimalist modern Swiss Grid design",
+  "description": "Creative concept detail: Swiss Grid visual layout style. Beautifully organized asymmetric left-aligned text lines on a pristine, crisp white backdrop. A premium three-seater sofa aligns perfectly with the clean architectural grid lines, maximizing negative space and giving an ultra-clean editorial feel."
+}

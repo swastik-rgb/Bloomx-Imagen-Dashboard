@@ -1,0 +1,27 @@
+{
+  "ingredients": {
+    "logoUrl": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=150&h=150&q=80",
+    "brandColors": {
+      "primaryColor": "#1C2E24",
+      "secondaryColor": "#F9F6F0",
+      "accentColor": "#D4AF37"
+    },
+    "fonts": {
+      "headlineFont": "Italiana",
+      "bodyFont": "Lora"
+    },
+    "productImages": [
+      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=600&q=80"
+    ],
+    "referenceImage": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=600&q=80"
+  },
+  "displayText": {
+    "headline": "Loved by 15,000+ Skin Enthusiasts",
+    "offer": "TRY RISK-FREE FOR 30 DAYS",
+    "subheading": "98% noticed visible radiance within two weeks.",
+    "date": "RATED 4.9 / 5.0 STARS",
+    "footer": "*Based on an independent 2024 consumer perception study."
+  },
+  "style": "luxury editorial minimalist product photography diagonal split-screen two-tone",
+  "description": "A striking diagonal split-screen layout dynamically divides the canvas. The upper-left triangular zone is bathed in deep forest green (#1C2E24), serving as a rich canvas for the elegant Italiana and Lora text elements, rendered in warm cream and accented gold. The lower-right triangular zone provides a clean, alabaster-cream (#F9F6F0) backdrop that highlights the premium amber glass serum bottle. The precise diagonal divide creates an elegant, high-contrast composition that immediately draws attention to the trust metrics and high product ratings."
+}

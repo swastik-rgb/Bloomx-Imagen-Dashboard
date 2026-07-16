@@ -1,0 +1,30 @@
+{
+  "angle_id": 8,
+  "layout_id": 8,
+  "ingredients": {
+    "logoUrl": "https://www.accordwildlifepench.com/web/themes/images/logo.jpg",
+    "brandColors": {
+      "primaryColor": "#FFFFFF",
+      "secondaryColor": "#000000",
+      "accentColor": "#FF0000"
+    },
+    "fonts": {
+      "headlineFont": "Outfit",
+      "bodyFont": "WorkSans"
+    },
+    "productImages": [
+      "https://www.accordwildlifepench.com/web/themes/images/about.jpg",
+      "https://www.accordwildlifepench.com/web/uploads/events/38091.jpg"
+    ],
+    "referenceImage": "http://hotelroyalorbit.com//web/uploads/"
+  },
+  "displayText": {
+    "headline": "Indulge in Jungle Opulence",
+    "offer": "Tailor-made luxury escape",
+    "subheading": "The premier destination for discerning travelers.",
+    "date": "Exclusive to select bookings",
+    "footer": "Contact our concierge."
+  },
+  "style": "Sophisticated and refined design with serene photography",
+  "description": "This creative presents an aura of sophistication through high-quality photos of posh accommodations and personalized service offers. Each text component is meticulously crafted to match the grandeur of the visual elements."
+}

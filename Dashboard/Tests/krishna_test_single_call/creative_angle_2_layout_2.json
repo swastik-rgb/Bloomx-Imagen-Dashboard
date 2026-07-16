@@ -1,0 +1,29 @@
+{
+  "angle_id": 2,
+  "layout_id": 2,
+  "ingredients": {
+    "logoUrl": "https://krishnafurniture.com/cdn/shop/files/Krishna_Furniture_logo.png?v=1783772577&width=260",
+    "brandColors": {
+      "primaryColor": "#0F172A",
+      "secondaryColor": "#FFFFFF",
+      "accentColor": "#B45309"
+    },
+    "fonts": {
+      "headlineFont": "Outfit",
+      "bodyFont": "WorkSans"
+    },
+    "productImages": [
+      "https://krishnafurniture.com/cdn/shop/files/Krishna_Furniture_Beds.webp?v=1783765857&width=2200"
+    ],
+    "referenceImage": "https://krishnafurniture.com/cdn/shop/files/sofas_73506b6e-7d34-49a9-bc9f-e7f9276acefa.jpg?v=1783764884&width=2200"
+  },
+  "displayText": {
+    "headline": "Sinking Cushion Fatigue?",
+    "offer": "10-YEAR WARRANTY GUARANTEE",
+    "subheading": "Say goodbye to sagging sofa frames",
+    "date": "Limited Time Exchange",
+    "footer": "Trade in your old furniture for value."
+  },
+  "style": "commercial product photography minimalist modern Marble Pedestal style",
+  "description": "Creative concept detail: Marble Pedestal visual layout style. A luxurious white marble platform rests in the center of the frame, elevating the detailed bed frame. Text is perfectly centered above the product, creating a classical architectural focal point that screams stability."
+}

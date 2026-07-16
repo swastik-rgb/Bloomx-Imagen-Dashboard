@@ -1,0 +1,30 @@
+{
+  "angle_id": 8,
+  "layout_id": 8,
+  "ingredients": {
+    "logoUrl": "https://www.accordwildlifepench.com/web/themes/images/logo.jpg",
+    "brandColors": {
+      "primaryColor": "#FFFFFF",
+      "secondaryColor": "#000000",
+      "accentColor": "#FF0000"
+    },
+    "fonts": {
+      "headlineFont": "Outfit",
+      "bodyFont": "WorkSans"
+    },
+    "productImages": [
+      "https://www.accordwildlifepench.com/web/themes/images/about.jpg",
+      "https://www.accordwildlifepench.com/web/uploads/events/38091.jpg"
+    ],
+    "referenceImage": "http://hotelroyalorbit.com//web/uploads/"
+  },
+  "displayText": {
+    "headline": "Embrace Timeless Minimalism",
+    "offer": "Pure Tranquility Awaits",
+    "subheading": "Seamless integration of simplicity and elegance.",
+    "date": "Book Your Stay",
+    "footer": "*Availability limited."
+  },
+  "style": "editorial finesse, timeless elegance",
+  "description": "The rich textures of beige paper and editorial margins create a sophisticated minimalist backdrop for the resort imagery."
+}

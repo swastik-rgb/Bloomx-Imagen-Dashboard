@@ -1,0 +1,30 @@
+{
+  "angle_id": 4,
+  "layout_id": 4,
+  "ingredients": {
+    "logoUrl": "https://www.accordwildlifepench.com/web/themes/images/logo.jpg",
+    "brandColors": {
+      "primaryColor": "#FFFFFF",
+      "secondaryColor": "#000000",
+      "accentColor": "#FF0000"
+    },
+    "fonts": {
+      "headlineFont": "Outfit",
+      "bodyFont": "WorkSans"
+    },
+    "productImages": [
+      "https://www.accordwildlifepench.com/web/banners/63722.jpg",
+      "https://www.accordwildlifepench.com/web/banners/47897.jpg"
+    ],
+    "referenceImage": "http://hotelroyalorbit.com//web/uploads/"
+  },
+  "displayText": {
+    "headline": "Luxury in the Wild",
+    "offer": "Exclusive Villa Discounts",
+    "subheading": "Elegance meets nature's beauty.",
+    "date": "Limited period offer for villa bookings",
+    "footer": "Contact for reservations."
+  },
+  "style": "Luxury-focused design with elegant typography",
+  "description": "Centered on opulence, the creative features rich imagery of villa interiors and elegant design elements that harmonize with the natural aesthetic. The message is delivered through exquisite typography that emphasizes luxury living."
+}

@@ -1,0 +1,30 @@
+{
+  "angle_id": 7,
+  "layout_id": 7,
+  "ingredients": {
+    "logoUrl": "https://www.maxhealthcare.in/img/brandLogoNew.svg",
+    "brandColors": {
+      "primaryColor": "#0C3E75",
+      "secondaryColor": "#009384",
+      "accentColor": "#FFA000"
+    },
+    "fonts": {
+      "headlineFont": "Outfit",
+      "bodyFont": "WorkSans"
+    },
+    "productImages": [
+      "https://i3.ytimg.com/vi/G7u35XtnJIQ/sddefault.jpg",
+      "https://i3.ytimg.com/vi/Dv3MsDFjLwA/sddefault.jpg"
+    ],
+    "referenceImage": "https://www.maxhealthcare.in/img/emergency.png"
+  },
+  "displayText": {
+    "headline": "Global Standards of Clinical Distinction",
+    "offer": "INTERNATIONAL PATIENT SERVICES & PREMIUM SUITES",
+    "subheading": "Offering world-class healthcare with dedicated international lounges, personalized care coordinators, and unmatched clinical outcomes in India.",
+    "date": "Seamless Global Admissions 24/7",
+    "footer": "Direct connectivity from Delhi International Airport."
+  },
+  "style": "Bold monolithic backdrops, premium golden accents, architectural weight.",
+  "description": "A massive navy-blue concrete monolith stands centered. Resting in front is an elegant gold-trimmed medical crest, symbolizing global prestige. Background features soft golden backlighting."
+}

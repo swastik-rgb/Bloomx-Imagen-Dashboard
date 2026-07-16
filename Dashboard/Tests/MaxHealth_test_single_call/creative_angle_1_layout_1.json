@@ -1,0 +1,30 @@
+{
+  "angle_id": 1,
+  "layout_id": 1,
+  "ingredients": {
+    "logoUrl": "https://www.maxhealthcare.in/img/brandLogoNew.svg",
+    "brandColors": {
+      "primaryColor": "#0C3E75",
+      "secondaryColor": "#009384",
+      "accentColor": "#FFA000"
+    },
+    "fonts": {
+      "headlineFont": "Outfit",
+      "bodyFont": "WorkSans"
+    },
+    "productImages": [
+      "https://www.maxhealthcare.in/img/emergency.png",
+      "https://max-website20-images.s3.ap-south-1.amazonaws.com/internal_medicine_banner_31ef89f3bf.jpg"
+    ],
+    "referenceImage": "https://www.maxhealthcare.in/img/emergency.png"
+  },
+  "displayText": {
+    "headline": "Redefining India's Healthcare Standards",
+    "offer": "COMPREHENSIVE MULTISPECIALITY CARE",
+    "subheading": "From cutting-edge diagnostics to world-class recovery, Max Healthcare brings together leading specialists and advanced medicine under one trusted network.",
+    "date": "24/7 Care Available",
+    "footer": "Max Healthcare Network - Delhi NCR, Mumbai, Punjab & Uttarakhand."
+  },
+  "style": "Asymmetric, clean Swiss typography, heavy grids, minimal off-white background.",
+  "description": "Clean grid layout with a prominent left-aligned bold headline in Outfit font. The right panel features high-resolution clinical research labs. Modern minimal borders segmenting the emergency contacts and location details in GeistMono or WorkSans."
+}
