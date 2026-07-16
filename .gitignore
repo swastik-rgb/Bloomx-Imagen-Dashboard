@@ -1,0 +1,40 @@
+# Environment files
+.env
+.env.*
+*.env
+
+# Python cache & bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments & dependencies
+venv/
+.venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# Logs and outputs
+logs/
+*.log
+last_llm_raw_output.txt
+output_creatives/
+
+# Backups and Trash
+Trash/
+Backend_Backup/
+*_backup/
+*.bak
+*.tmp
+
+# IDE / OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp

@@ -1,0 +1,14 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment & secrets
+.env
+.env.*
+*.env
+
+# Logs & temp files
+*.log
+*.tmp
+*.bak
