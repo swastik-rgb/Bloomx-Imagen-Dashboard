@@ -50,8 +50,10 @@ class AdGenerationPipeline:
         Branch 2 (Brand & Niche Mode): AI acts as Graphic Designer, analyzes competitor websites via Web Search API.
         Generates structured JSON ad briefs, converts into GPT Image 2 prompts, and renders actual images.
         """
-        is_branch_2 = isinstance(url_or_data, dict) and "niche" in url_or_data
-        target_display = f"Brand: {url_or_data.get('brand_name')} | Niche: {url_or_data.get('niche')}" if is_branch_2 else url_or_data
+        is_branch_2 = isinstance(url_or_data, dict) and not bool(url_or_data.get("url")) and ("niche" in url_or_data or "category" in url_or_data)
+        brand_name_disp = url_or_data.get('brand_name') or url_or_data.get('brandName', 'Brand') if isinstance(url_or_data, dict) else url_or_data
+        niche_disp = url_or_data.get('niche') or url_or_data.get('category', 'Category') if isinstance(url_or_data, dict) else ''
+        target_display = f"Brand: {brand_name_disp} | Niche: {niche_disp}" if is_branch_2 else url_or_data
         print(f"[*] Step 1: Analyzing target via AI Web Search & Vision API ({'Branch 2: Competitor Analysis & Graphic Designer Mode' if is_branch_2 else 'Branch 1: URL Scraping & Vision Mode'}): {target_display}")
         
         # Create output directory
@@ -61,7 +63,10 @@ class AdGenerationPipeline:
         screenshot_b64 = None
         if use_vision and not is_branch_2:
             try:
-                screenshot_target = screenshot_path if screenshot_path else url_or_data
+                target_url_str = url_or_data.get("url", str(url_or_data)) if isinstance(url_or_data, dict) else url_or_data
+                if isinstance(target_url_str, str) and target_url_str and not target_url_str.startswith("http://") and not target_url_str.startswith("https://") and "." in target_url_str:
+                    target_url_str = f"https://{target_url_str}"
+                screenshot_target = screenshot_path if screenshot_path else target_url_str
                 screenshot_b64 = capture_or_load_screenshot(screenshot_target, os.path.join(output_dir, "landing_page_screenshot.png"))
                 if screenshot_b64:
                     print(f"[+] Multimodal Vision Cross-Check enabled (Screenshot Base64 loaded).")
@@ -139,12 +144,22 @@ class AdGenerationPipeline:
                 brief_prompt = json_to_design_brief(creative)
                 
                 # Naming and saving
-                brand_str = creative.get("brand_name", "").strip() or (url_or_data.get("brand_name") if is_branch_2 else "Brand")
+                brand_str = creative.get("brand_name", "").strip() or (url_or_data.get("brand_name") or url_or_data.get("brandName") if isinstance(url_or_data, dict) else "Brand")
                 clean_brand = re.sub(r'[^a-zA-Z0-9_-]', ' ', brand_str).strip() or "Brand"
                 clean_brand = " ".join(clean_brand.split()[:3])
                 
-                # Unique file naming for bulk vs single
-                if bulk or limit is not None and limit > 1:
+                # Check for Frontend Client Name & Phone No for exact "Name##PhoneNo.png" naming
+                client_name = ""
+                client_phone = ""
+                if isinstance(url_or_data, dict):
+                    client_name = str(url_or_data.get("client_name") or url_or_data.get("name") or "").strip()
+                    client_phone = str(url_or_data.get("client_phone") or url_or_data.get("phone") or url_or_data.get("phone_no") or "").strip()
+
+                if client_name or client_phone:
+                    clean_name = re.sub(r'[\\/*?:"<>|]', '', client_name or "Client").strip()
+                    clean_phone = re.sub(r'[\\/*?:"<>|]', '', client_phone or "0000000000").strip()
+                    base_filename = f"{clean_name}##{clean_phone}"
+                elif bulk or (limit is not None and limit > 1):
                     base_filename = f"{clean_brand} Angle_{a_idx} Layout_{l_idx}"
                 else:
                     base_filename = f"{clean_brand} Ad Creative"
@@ -183,6 +198,16 @@ class AdGenerationPipeline:
                     if img_success:
                         manifest_entry["image_path"] = img_path
                         manifest_entry["image_file"] = f"{base_filename}.png"
+                        
+                        # Upload exact Name##PhoneNo.png directly to Google Drive
+                        try:
+                            from drive_uploader import upload_to_gdrive
+                            gdrive_res = upload_to_gdrive(img_path, filename=f"{base_filename}.png")
+                            if gdrive_res and isinstance(gdrive_res, dict):
+                                manifest_entry["gdrive_id"] = gdrive_res.get("id")
+                                manifest_entry["gdrive_link"] = gdrive_res.get("webViewLink")
+                        except Exception as e_drive:
+                            print(f"[-] Google Drive upload hook error: {e_drive}")
                 
                 manifest.append(manifest_entry)
 

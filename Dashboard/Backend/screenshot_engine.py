@@ -48,13 +48,14 @@ def capture_or_load_screenshot(url_or_path, output_path="output_creatives/latest
                     "--headless=new",
                     f"--screenshot={abs_output_path}",
                     "--window-size=1440,4500",
-                    "--virtual-time-budget=4000",
+                    "--virtual-time-budget=10000",
+                    "--run-all-compositor-stages-before-draw",
                     "--hide-scrollbars",
                     url_or_path
                 ]
-                res = subprocess.run(cmd, capture_output=True, text=True, timeout=20)
+                res = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
                 if os.path.exists(abs_output_path) and os.path.getsize(abs_output_path) > 1000:
-                    print(f"[+] Full-Page Screenshot captured via local Headless Browser ({os.path.basename(binary_path)}) and saved to: {output_path} (Size: {os.path.getsize(abs_output_path):,} bytes)")
+                    print(f"[+] Full-Page Screenshot captured via local Headless Browser ({os.path.basename(binary_path)}) after fully loading and saved to: {output_path} (Size: {os.path.getsize(abs_output_path):,} bytes)")
                     with open(abs_output_path, "rb") as f:
                         img_bytes = f.read()
                     return base64.b64encode(img_bytes).decode('utf-8')
@@ -64,8 +65,8 @@ def capture_or_load_screenshot(url_or_path, output_path="output_creatives/latest
     # Method 2: Attempt Microlink API endpoint (Fallback if local browser not available)
     try:
         encoded_url = urllib.parse.quote(url_or_path, safe='')
-        api_url = f"https://api.microlink.io/?url={encoded_url}&screenshot=true&fullPage=true&meta=false&viewport.width=1440"
-        response = requests.get(api_url, timeout=20)
+        api_url = f"https://api.microlink.io/?url={encoded_url}&screenshot=true&fullPage=true&meta=false&waitFor=10000&waitUntil=networkidle0&viewport.width=1440"
+        response = requests.get(api_url, timeout=30)
         if response.status_code == 200:
             data = response.json()
             screenshot_url = data.get("data", {}).get("screenshot", {}).get("url")

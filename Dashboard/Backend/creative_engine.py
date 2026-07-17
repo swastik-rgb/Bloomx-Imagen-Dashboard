@@ -120,9 +120,11 @@ class CreativeEngine:
         Brainstorms ad copy, brand assets, and visual layout concepts using AI Web Search capabilities and optional multimodal screenshot cross-check on the target URL.
         Supports both Branch 1 (URL Scraping + Vision) and Branch 2 (Brand + Niche Competitor Analysis / Graphic Designer Mode).
         """
-        is_url = isinstance(target_url_or_data, str)
-        is_branch_2 = isinstance(target_url_or_data, dict) and "niche" in target_url_or_data
-        target_url = target_url_or_data if is_url else target_url_or_data.get("url", target_url_or_data.get("brand_name", "Brand Website"))
+        has_url = isinstance(target_url_or_data, str) or (isinstance(target_url_or_data, dict) and bool(target_url_or_data.get("url")))
+        is_branch_2 = isinstance(target_url_or_data, dict) and not bool(target_url_or_data.get("url")) and ("niche" in target_url_or_data or "category" in target_url_or_data)
+        target_url = target_url_or_data if isinstance(target_url_or_data, str) else target_url_or_data.get("url", target_url_or_data.get("brandName", target_url_or_data.get("brand_name", "Brand Website")))
+        if isinstance(target_url, str) and target_url and not target_url.startswith("http://") and not target_url.startswith("https://") and "." in target_url:
+            target_url = f"https://{target_url}"
         if num_creatives is None:
             num_creatives = len(angles_list)
         
@@ -236,13 +238,14 @@ You MUST return a single, valid JSON object strictly adhering to the following s
         system_prompt = system_prompt.replace("{NUM_CREATIVES}", str(num_creatives)).replace("{URL}", str(target_url))
 
         if is_branch_2:
-            brand_name = target_url_or_data.get("brand_name", "Brand")
-            niche = target_url_or_data.get("niche", "Service")
+            brand_name = target_url_or_data.get("brandName") or target_url_or_data.get("brand_name", "Brand")
+            niche = target_url_or_data.get("category") or target_url_or_data.get("niche", "Service")
+            about = target_url_or_data.get("about", "")
+            about_str = f"\nAbout / Description: {about}\n" if about else "\n"
             user_prompt = f"""
 BRANCH 2 - GRAPHIC DESIGNER & COMPETITOR ANALYSIS MODE:
 Target Brand Name: {brand_name}
-Target Niche / Industry: {niche}
-
+Target Niche / Industry: {niche}{about_str}
 RUN CONFIGURATION:
 Generate exactly {num_creatives} creative(s).
 You are acting as an agency Creative Director and Lead Graphic Designer for `{brand_name}` inside the `{niche}` industry.
@@ -251,32 +254,51 @@ Use your intelligent Web Search API tools to analyze top-performing competitor w
 2. Messaging, Zero-Assumption Trust & Footer: Brainstorm high-converting H1/H2 copy tailored to `{brand_name}` and `{niche}`. Since no explicit review metrics or target website URL were supplied, force `rating_score: null`, `review_count: null`, and strictly set `displayText.footer: null`.
 3. Select the best `angle_id` and `layout_id` for `{niche}` and output the complete JSON adhering exactly to the schema instructed above.
 """
-        elif is_url:
+        elif has_url:
+            extra_meta = ""
+            b_name = ""
+            if isinstance(target_url_or_data, dict):
+                b_name = target_url_or_data.get("brandName") or target_url_or_data.get("brand_name", "")
+                b_cat = target_url_or_data.get("category") or target_url_or_data.get("niche", "")
+                b_about = target_url_or_data.get("about", "")
+                meta_parts = []
+                if b_name: meta_parts.append(f"Authoritative Brand Name (Direct from Frontend JSON): {b_name}")
+                if b_cat: meta_parts.append(f"Category / Niche: {b_cat}")
+                if b_about: meta_parts.append(f"About / Description: {b_about}")
+                if meta_parts:
+                    extra_meta = "\nSUPPLEMENTAL BRAND METADATA FROM FRONTEND:\n" + "\n".join(meta_parts) + "\n"
+
+            brand_header = f"TARGET BRAND NAME: {b_name}\n" if b_name else ""
             user_prompt = f"""
 TARGET BRAND WEBSITE URL TO ANALYZE AND SEARCH:
 {target_url}
-
+{brand_header}{extra_meta}
 RUN CONFIGURATION:
 Generate exactly {num_creatives} creative(s).
 We have attached the Full-Page Screenshot (`screenshot_b64`) alongside DOM/text data for `{target_url}`.
-CRITICAL MANDATE: Compare both the DOM and the Full-Page Screenshot, but strictly PRIORITIZE IMAGE DATA ANALYSIS over text/DOM across all visual elements, #HEX colors, button copy, and trust metrics! If any DOM text conflicts with what is physically visible on the screenshot, the visual image data always overrides!
-Use your intelligent web search API tools AND visually inspect the full-page screenshot to understand the exact services, catalog, key benefits, target audience, and unique selling points (USPs).
-Then, deduce its brand color palette (`brandColors`) and typography (`fonts`) from the image, intelligently select the single best Marketing Angle (`angle_id` 1-10) and Visual Layout (`layout_id` 1-10) directly from the authoritative directories in your System Prompt based on the discovered brand service, and output the complete JSON.
+CRITICAL MANDATE: Compare both the DOM/metadata and the Full-Page Screenshot, but strictly PRIORITIZE IMAGE DATA ANALYSIS over text/DOM across all visual elements, #HEX colors, button copy, and trust metrics! If any DOM text conflicts with what is physically visible on the screenshot, the visual image data always overrides!
+Use your intelligent web search API tools AND visually inspect the full-page screenshot (plus any supplemental metadata) to understand the exact services, catalog, key benefits, target audience, and unique selling points (USPs).
+If an Authoritative Brand Name (`{b_name if b_name else 'Brand'}`) is provided above directly from the frontend JSON, you MUST use that exact Brand Name across your copy and JSON structure!
+Then, deduce its brand color palette (`brandColors`) and typography (`fonts`) from the image/metadata, intelligently select the single best Marketing Angle (`angle_id` 1-10) and Visual Layout (`layout_id` 1-10) directly from the authoritative directories in your System Prompt based on the discovered brand service, and output the complete JSON.
 
 Please output the complete, fully formed JSON adhering exactly to the schema instructed above.
 """
         else:
+            b_name = target_url_or_data.get('brandName') or target_url_or_data.get('brand_name', '') if isinstance(target_url_or_data, dict) else ''
+            b_header = f"TARGET BRAND NAME (Direct from Frontend JSON): {b_name}\n" if b_name else ""
             user_prompt = f"""
 WEBSITE DATA:
-Title: {target_url_or_data.get('title')}
-Optimized HTML Content:
-{target_url_or_data.get('optimized_html')}
+Title: {target_url_or_data.get('title') if isinstance(target_url_or_data, dict) else ''}
+{b_header}Optimized HTML Content:
+{target_url_or_data.get('optimized_html') if isinstance(target_url_or_data, dict) else ''}
 
 RUN CONFIGURATION:
 Generate exactly {num_creatives} creative(s).
 We have attached the Full-Page Screenshot alongside the DOM data above.
 CRITICAL MANDATE: Compare both the DOM and the Full-Page Screenshot, but strictly PRIORITIZE IMAGE DATA ANALYSIS over text/DOM across all visual elements, #HEX colors, button copy, and trust metrics! If any DOM text conflicts with what is physically visible on the screenshot, the visual image data always overrides!
-From the available data AND the attached full-page screenshot, deeply analyze the company's core services, offerings, and value propositions. Populate the ingredients (`brandColors`, `fonts`), intelligently select the single best Marketing Angle (`angle_id` 1-10) and Visual Layout (`layout_id` 1-10) directly from the directories in your System Prompt based on the brand service, and output the complete JSON.
+From the available data AND the attached full-page screenshot, deeply analyze the company's core services, offerings, and value propositions.
+If an Authoritative Brand Name (`{b_name if b_name else 'Brand'}`) is provided above directly from the frontend JSON, you MUST use that exact Brand Name across your copy and JSON structure!
+Populate the ingredients (`brandColors`, `fonts`), intelligently select the single best Marketing Angle (`angle_id` 1-10) and Visual Layout (`layout_id` 1-10) directly from the directories in your System Prompt based on the brand service, and output the complete JSON.
 
 Please output the complete, fully formed JSON adhering exactly to the schema instructed above.
 """

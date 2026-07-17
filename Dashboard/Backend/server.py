@@ -36,15 +36,36 @@ class DashboardRequestHandler(SimpleHTTPRequestHandler):
             try:
                 payload = json.loads(post_data.decode("utf-8"))
                 url = payload.get("url")
-                brand_name = payload.get("brand_name") or payload.get("brand")
-                niche = payload.get("niche")
+                if url and isinstance(url, str):
+                    url = url.strip()
+                    if url and not url.startswith("http://") and not url.startswith("https://"):
+                        url = f"https://{url}"
+
+                brand_name = payload.get("brandName") or payload.get("brand_name") or payload.get("brand") or ""
+                niche = payload.get("category") or payload.get("niche") or ""
+                about = payload.get("about") or payload.get("description") or ""
+                client_name = payload.get("name") or payload.get("client_name") or ""
+                client_phone = payload.get("phone") or payload.get("client_phone") or payload.get("phone_no") or ""
+                req_type = payload.get("type", "creative_ad")
                 
                 if not url and not (brand_name and niche):
-                    self.send_error_response("Please specify either a Brand Website URL (Branch 1) OR both Brand Name & Niche (Branch 2).")
+                    self.send_error_response("Please specify either a Brand Website URL (Branch 1) OR both Brand Name & Category/Niche (Branch 2).")
                     return
                 
-                target_input = url if url else {"brand_name": brand_name, "niche": niche}
-                print(f"[*] /api/generate called for target: {target_input} (Single Creative Mode: 1 Prompt, 1 Image)")
+                target_input = {
+                    "type": req_type,
+                    "url": url,
+                    "brand_name": brand_name,
+                    "brandName": brand_name,
+                    "niche": niche,
+                    "category": niche,
+                    "about": about,
+                    "name": client_name,
+                    "phone": client_phone
+                }
+                target_input = {k: v for k, v in target_input.items() if v is not None and str(v).strip() != ""}
+                    
+                print(f"[*] /api/generate called for target schema: {target_input} (Single Creative Mode: 1 Prompt, 1 Image)")
                 
                 # Retrieve API Key from environment or .env file
                 load_env_file()
