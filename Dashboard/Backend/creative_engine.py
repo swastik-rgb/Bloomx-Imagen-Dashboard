@@ -134,9 +134,11 @@ Your ultimate goal is to design ad creatives optimized for "Cognitive Fluency"â€
 
 INSTRUCTIONS:
 
-1. DOM & VISUAL SCREENSHOT EXTRACTION (VISUAL IDENTITY):
-   - Scrape and analyze the CSS along with inspecting the attached visual screenshot (if provided) to find the exact Brand Color Palette. Look for `:root` variables (`--primary-color`), visible header colors, and exact CTA button hex colors shown on screen. Define primary, secondary, accent_cta, and background colors strictly in #HEX format.
-   - Analyze Website Typography Feel: Observe the font vibe and personality shown on the website (e.g., modern sans-serif, luxury serif, clean clinical, bold athletic). Reference the website's feel and intelligently select the single best matching Font Pairing specifically from our curated TYPOGRAPHY LIBRARY below that evokes the exact same aesthetic and mood!
+1. DOM & FULL-PAGE SCREENSHOT EXTRACTION (PRIORITIZE IMAGE DATA ANALYSIS):
+   - You are provided with both DOM/text scraping data AND the attached full-page visual screenshot (`screenshot_b64`).
+   - COMPARE BOTH & PRIORITIZE IMAGE DATA: Carefully cross-check the DOM/text data against the actual visual screenshot. The full-page screenshot is your authoritative 100% ground-truth. If there is any discrepancy or conflict between the DOM/text copy and what is physically rendered on the image (e.g., `#HEX` button colors, header layout, font aesthetic, or review badges), THE IMAGE DATA TAKES STRICT PRIORITY AND OVERRIDES DOM TEXT!
+   - Visual Color Palette: Define `primary`, `secondary`, `accent_cta`, and `background` strictly in `#HEX` format by directly sampling visible elements on the screenshot.
+   - Analyze Website Typography Feel: Observe the font vibe and personality physically shown on the screenshot and select the single best matching Font Pairing specifically from our curated TYPOGRAPHY LIBRARY below that evokes that exact same aesthetic!
 
 2. TYPOGRAPHY LIBRARY (Select One Matching Vibe):
    Review the categories below and choose the best matching font pair (`heading_font` + `body_font`) tailored to the website's aesthetic and feel:
@@ -149,10 +151,10 @@ INSTRUCTIONS:
    - Playful & Youthful Food / Beverage: Fredoka (headline) + Quicksand (body) | Rubik (headline) + Karla (body) | Righteous (headline) + Poppins (body)
    - Classic Corporate & Professional: Cinzel (headline) + Raleway (body) | Prata (headline) + Lato (body) | Merriweather (headline) + Open Sans (body)
 
-3. HTML, METADATA & SCREENSHOT AUDIT (MESSAGING & TRUST - ZERO ASSUMPTIONS):
-   - Core Messaging: Extract the Hero Headline (H1) for the value proposition, the Sub-headline (H2), and the Meta Description. The ad copy must align perfectly with what is visually displayed on the website.
-   - CTA Mechanics: Identify the exact text on primary conversion buttons (e.g., "Start Free Trial", "Get a Quote"). 
-   - Trust Signals (100% FACTUAL ONLY & SCREENSHOT VERIFIED): Carefully inspect the attached website screenshot alongside DOM data. Look for review scores, rating counts, or "Trusted By" client lists explicitly rendered on the page. If the website does NOT explicitly display a numeric star rating on screen or in copy, you MUST output `null` or `[]` for those fields (`"rating_score": null`, `"review_count": null`, `"key_client_names": []`). Do NOT invent, assume, or output placeholder numbers like 4.9 or 1000! Only include details that you are 100% sure of and explicitly rendered on the web page!
+3. HTML, METADATA & FULL-PAGE SCREENSHOT AUDIT (MESSAGING & TRUST - PRIORITIZE IMAGE):
+   - Core Messaging: Extract the Hero Headline (H1) and Offer sub-headline by comparing DOM text against what is prominently displayed at the top of the full-page screenshot. Prioritize the visual text hierarchy shown on the image.
+   - CTA Mechanics: Identify the exact button text visually displayed on primary conversion CTA buttons inside the screenshot (`e.g., "Start Free Trial", "Get a Quote"`).
+   - Trust Signals (100% IMAGE DATA PRIORITY - ZERO ASSUMPTIONS): Carefully inspect the full-page screenshot alongside DOM data. Look for review scores, star icons, rating counts, or "Trusted By" client lists explicitly rendered on the page. Because Image Data takes priority, if the website does NOT explicitly and physically display a numeric star rating on screen, you MUST output `null` or `[]` for those fields (`"rating_score": null`, `"review_count": null`, `"key_client_names": []`). Do NOT invent, assume, or output placeholder numbers like 4.9 or 1000! Only include details that are physically verified on the full-page screenshot!
 
 4. MARKETING ANGLES DIRECTORY (Select One):
    Review all 10 Angles and select the single best `angle_id` (1-10) tailored to the extracted H1 and core service:
@@ -256,8 +258,10 @@ TARGET BRAND WEBSITE URL TO ANALYZE AND SEARCH:
 
 RUN CONFIGURATION:
 Generate exactly {num_creatives} creative(s).
-Use your intelligent web search API tools AND visually inspect the attached screenshot (if present) to understand {target_url}. Explore and verify the exact services, catalog, key benefits, target audience, and unique selling points (USPs).
-Then, deduce its brand color palette (`brandColors`) and typography (`fonts`), intelligently select the single best Marketing Angle (`angle_id` 1-10) and Visual Layout (`layout_id` 1-10) directly from the authoritative directories in your System Prompt based on the discovered brand service, and output the complete JSON.
+We have attached the Full-Page Screenshot (`screenshot_b64`) alongside DOM/text data for `{target_url}`.
+CRITICAL MANDATE: Compare both the DOM and the Full-Page Screenshot, but strictly PRIORITIZE IMAGE DATA ANALYSIS over text/DOM across all visual elements, #HEX colors, button copy, and trust metrics! If any DOM text conflicts with what is physically visible on the screenshot, the visual image data always overrides!
+Use your intelligent web search API tools AND visually inspect the full-page screenshot to understand the exact services, catalog, key benefits, target audience, and unique selling points (USPs).
+Then, deduce its brand color palette (`brandColors`) and typography (`fonts`) from the image, intelligently select the single best Marketing Angle (`angle_id` 1-10) and Visual Layout (`layout_id` 1-10) directly from the authoritative directories in your System Prompt based on the discovered brand service, and output the complete JSON.
 
 Please output the complete, fully formed JSON adhering exactly to the schema instructed above.
 """
@@ -270,7 +274,9 @@ Optimized HTML Content:
 
 RUN CONFIGURATION:
 Generate exactly {num_creatives} creative(s).
-From the available data above AND the attached screenshot (if present), deeply analyze the company's core services, offerings, and value propositions. Populate the ingredients (`brandColors`, `fonts`), intelligently select the single best Marketing Angle (`angle_id` 1-10) and Visual Layout (`layout_id` 1-10) directly from the directories in your System Prompt based on the brand service, and output the complete JSON.
+We have attached the Full-Page Screenshot alongside the DOM data above.
+CRITICAL MANDATE: Compare both the DOM and the Full-Page Screenshot, but strictly PRIORITIZE IMAGE DATA ANALYSIS over text/DOM across all visual elements, #HEX colors, button copy, and trust metrics! If any DOM text conflicts with what is physically visible on the screenshot, the visual image data always overrides!
+From the available data AND the attached full-page screenshot, deeply analyze the company's core services, offerings, and value propositions. Populate the ingredients (`brandColors`, `fonts`), intelligently select the single best Marketing Angle (`angle_id` 1-10) and Visual Layout (`layout_id` 1-10) directly from the directories in your System Prompt based on the brand service, and output the complete JSON.
 
 Please output the complete, fully formed JSON adhering exactly to the schema instructed above.
 """
