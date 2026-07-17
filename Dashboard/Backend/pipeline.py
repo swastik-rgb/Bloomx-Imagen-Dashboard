@@ -195,6 +195,8 @@ class AdGenerationPipeline:
                 # Generate Actual Image using GPT Image 2 model
                 if generate_image:
                     img_success = self.engine.generate_image(brief_prompt, img_path)
+                    drive_status = "Failure"
+                    creative_link = ""
                     if img_success:
                         manifest_entry["image_path"] = img_path
                         manifest_entry["image_file"] = f"{base_filename}.png"
@@ -205,9 +207,20 @@ class AdGenerationPipeline:
                             gdrive_res = upload_to_gdrive(img_path, filename=f"{base_filename}.png")
                             if gdrive_res and isinstance(gdrive_res, dict):
                                 manifest_entry["gdrive_id"] = gdrive_res.get("id")
-                                manifest_entry["gdrive_link"] = gdrive_res.get("webViewLink")
+                                g_link = gdrive_res.get("webViewLink") or f"https://drive.google.com/file/d/{gdrive_res.get('id')}/view?usp=drive_link"
+                                manifest_entry["gdrive_link"] = g_link
+                                creative_link = g_link
+                                drive_status = "Success"
                         except Exception as e_drive:
                             print(f"[-] Google Drive upload hook error: {e_drive}")
+                            
+                    # Automatically update Google Sheet (Creative Link & Drive Status)
+                    try:
+                        from sheet_updater import update_lead_sheet
+                        if isinstance(url_or_data, dict):
+                            update_lead_sheet(url_or_data, creative_link=creative_link, drive_status=drive_status)
+                    except Exception as e_sheet:
+                        print(f"[-] Google Sheet update hook error: {e_sheet}")
                 
                 manifest.append(manifest_entry)
 
