@@ -26,6 +26,16 @@ def json_to_design_brief(json_data):
 
     trust_str = " | ".join(trust_items) if trust_items else "No numeric ratings or review counts listed explicitly on website (STRICT FACTUALITY: DO NOT hallucinate, invent, or draw any star ratings, review numbers, or fake badges anywhere on the image)."
 
+    display_text = creative_data.get('displayText', {})
+    headline_txt = display_text.get('headline', '')
+    offer_txt = display_text.get('offer', '')
+    cta_txt = display_text.get('cta_text', '')
+    footer_txt = display_text.get('footer')
+    if footer_txt in [None, "None", "null", ""]:
+        footer_line = "Footer / Trust: None (Do not render any footer text or website URL)"
+    else:
+        footer_line = f"Footer / Trust: {footer_txt}"
+
     brief_template = f"""Create a brand-new image from scratch. Do not edit, modify, or use any existing image.
 
 You are an expert commercial advertising designer. Your objective is to create a professional marketing creative that achieves perfect "Cognitive Fluency"—meaning this ad must look, feel, and read exactly like the brand's landing page to ensure zero friction when a user clicks through.
@@ -57,10 +67,10 @@ TEXT TO DISPLAY (COGNITIVE FLUENCY RULES)
 --------------------------------------------------
 Display the following text EXACTLY as provided. It was extracted directly from the website's DOM to ensure landing page continuity. Do not rewrite or hallucinate additional copy.
 
-Headline (H1 Match): {creative_data.get('displayText', {}).get('headline', '')}
-Offer Subtext: {creative_data.get('displayText', {}).get('offer', '')}
-Button Text (CTA): {creative_data.get('displayText', {}).get('cta_text', '')}
-Footer / Trust: {creative_data.get('displayText', {}).get('footer', '')}
+Headline (H1 Match): {headline_txt}
+Offer Subtext: {offer_txt}
+Button Text (CTA): {cta_txt}
+{footer_line}
 
 --------------------------------------------------
 LAYOUT & COMPOSITION RULES

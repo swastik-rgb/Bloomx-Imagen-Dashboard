@@ -223,10 +223,10 @@ You MUST return a single, valid JSON object strictly adhering to the following s
         "headline": "Derived from H1",
         "offer": "Derived from value proposition",
         "cta_text": "Exact CTA from website",
-        "footer": "Brand URL or Trust Signal text"
+        "footer": null
       },
       "style": "Keywords describing mood, lighting, and the selected layout style",
-      "description": "Comprehensive visual scene description showcasing the exact service/product in action for GPT Image 2 rendering. Incorporate layout instructions and exact hex codes."
+      "description": "Comprehensive visual scene description showcasing the exact service/product in action for GPT Image 2 rendering. Incorporate layout instructions and exact hex codes. If footer is null or not analyzing a website URL, do not instruct rendering of a footer or brand URL."
     }
   ]
 }
@@ -246,7 +246,7 @@ Generate exactly {num_creatives} creative(s).
 You are acting as an agency Creative Director and Lead Graphic Designer for `{brand_name}` inside the `{niche}` industry.
 Use your intelligent Web Search API tools to analyze top-performing competitor websites and visual design leaders inside the `{niche}` niche.
 1. Color & Vibe: Based on color psychology and competitor standards in `{niche}`, select a high-converting `#HEX` color palette and the best matching font pair from our TYPOGRAPHY LIBRARY.
-2. Messaging & Zero-Assumption Trust: Brainstorm high-converting H1/H2 copy tailored to `{brand_name}` and `{niche}`. Since no explicit review metrics were supplied, force `rating_score: null` and `review_count: null`.
+2. Messaging, Zero-Assumption Trust & Footer: Brainstorm high-converting H1/H2 copy tailored to `{brand_name}` and `{niche}`. Since no explicit review metrics or target website URL were supplied, force `rating_score: null`, `review_count: null`, and strictly set `displayText.footer: null`.
 3. Select the best `angle_id` and `layout_id` for `{niche}` and output the complete JSON adhering exactly to the schema instructed above.
 """
         elif is_url:
@@ -375,7 +375,11 @@ Please output the complete, fully formed JSON adhering exactly to the schema ins
                 headline = item.get("headline", item.get("displayText", {}).get("headline", top_messaging.get("value_proposition", "")))
                 offer = item.get("offer", item.get("displayText", {}).get("offer", top_messaging.get("sub_headline", "")))
                 cta_text = item.get("cta_text", item.get("displayText", {}).get("cta_text", top_messaging.get("primary_cta_text", "Learn More")))
-                footer = item.get("footer", item.get("displayText", {}).get("footer", "*Terms apply."))
+                raw_footer = item.get("footer", item.get("displayText", {}).get("footer"))
+                if not is_url or is_branch_2 or raw_footer in [None, "None", "null", ""]:
+                    footer = None
+                else:
+                    footer = raw_footer
                 style = item.get("style", "minimal modern")
                 description = item.get("description", "Product presentation design.")
                 
@@ -493,7 +497,11 @@ Please output the complete, fully formed JSON adhering exactly to the schema ins
                 brand_val = get_val("BRAND NAME:") or get_val("BRAND:") or "Brand"
                 service_val = get_val("SERVICE:") or "Commercial product or service"
                 offer = get_val("OFFER:")
-                footer = get_val("FOOTER:") or "*Terms apply."
+                raw_footer = get_val("FOOTER:")
+                if not is_url or is_branch_2 or raw_footer in [None, "None", "null", ""]:
+                    footer = None
+                else:
+                    footer = raw_footer
                 style = get_val("STYLE:") or "minimal modern"
                 description = get_val("DESCRIPTION:") or "Product creative presentation."
                     
