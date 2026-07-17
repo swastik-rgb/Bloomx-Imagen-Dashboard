@@ -36,12 +36,15 @@ class DashboardRequestHandler(SimpleHTTPRequestHandler):
             try:
                 payload = json.loads(post_data.decode("utf-8"))
                 url = payload.get("url")
+                brand_name = payload.get("brand_name") or payload.get("brand")
+                niche = payload.get("niche")
                 
-                if not url:
-                    self.send_error_response("URL parameter is required.")
+                if not url and not (brand_name and niche):
+                    self.send_error_response("Please specify either a Brand Website URL (Branch 1) OR both Brand Name & Niche (Branch 2).")
                     return
                 
-                print(f"[*] /api/generate called for URL: {url} (Single Creative Mode: 1 Prompt, 1 Image)")
+                target_input = url if url else {"brand_name": brand_name, "niche": niche}
+                print(f"[*] /api/generate called for target: {target_input} (Single Creative Mode: 1 Prompt, 1 Image)")
                 
                 # Retrieve API Key from environment or .env file
                 load_env_file()
@@ -53,7 +56,7 @@ class DashboardRequestHandler(SimpleHTTPRequestHandler):
                 # Run Ad Generation Pipeline using OpenAI API with limit=1 and generate_image=True
                 pipeline = AdGenerationPipeline(provider="openai", api_key=api_key)
                 manifest = pipeline.run(
-                    url=url, 
+                    url_or_data=target_input, 
                     bulk=False, 
                     output_dir=OUTPUT_DIR, 
                     limit=1, 
@@ -61,11 +64,11 @@ class DashboardRequestHandler(SimpleHTTPRequestHandler):
                 )
                 
                 if not manifest or len(manifest) == 0:
-                    self.send_error_response("Failed to generate ad creative. Please check the website URL and API key.")
+                    self.send_error_response("Failed to generate ad creative. Please check your inputs and API key.")
                     return
                 
                 creative = manifest[0]
-                creative_id = creative["id"]
+                creative_id = creative.get("id", "creative")
                 
                 # Read generated prompt text
                 prompt_path = os.path.join(OUTPUT_DIR, creative["prompt_file"])

@@ -35,17 +35,26 @@ class CreativeEngine:
         self.client = OpenAI(api_key=self.api_key)
         self.model_name = "gpt-4o"
 
-    def call_llm(self, system_prompt, user_prompt, use_search=False):
-        """Calls the OpenAI API with retry backoff and optional Web Search tool enabled."""
+    def call_llm(self, system_prompt, user_prompt, use_search=True, screenshot_b64=None):
+        """Calls OpenAI Chat Completion API with retry logic and optional multimodal screenshot vision check."""
         import time
-        max_retries = 6
-        backoff_delay = 5
+        max_retries = 3
+        backoff_delay = 2
         
+        if screenshot_b64:
+            print(f"[*] Attaching visual screenshot (`image_url`) to LLM prompt for multimodal cross-check...")
+            user_msg_content = [
+                {"type": "text", "text": user_prompt},
+                {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{screenshot_b64}"}}
+            ]
+        else:
+            user_msg_content = user_prompt
+
         for attempt in range(max_retries):
             try:
                 messages = [
                     {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_prompt}
+                    {"role": "user", "content": user_msg_content}
                 ]
                 if use_search:
                     try:
@@ -74,7 +83,7 @@ class CreativeEngine:
                 backoff_delay *= 2
 
     def generate_image(self, prompt, output_path):
-        """Generates an ad creative image via OpenAI DALL-E 3 / GPT Image 2."""
+        """Generates an ad creative image via OpenAI GPT Image 2 model."""
         print(f"[*] Generating visual creative via OPENAI API...")
         try:
             response = self.client.images.generate(
@@ -103,29 +112,34 @@ class CreativeEngine:
             print(f"[+] Image successfully saved to: {output_path}")
             return True
         except Exception as e:
-            print(f"[!] OpenAI Image generation failed: {e}")
+            print(f"[!] Error generating image via OpenAI API: {str(e)}")
             return False
 
-    def generate_ad_creatives(self, target_url_or_data, angles_list, layouts_list, use_search=True):
+    def generate_ad_creatives(self, target_url_or_data, angles_list, layouts_list, use_search=True, num_creatives=None, screenshot_b64=None):
         """
-        Brainstorms ad copy, brand assets, and visual layout concepts using AI Web Search capabilities on the target URL.
-        Programmatically parses the LLM output into our strict JSON structured schema containing ingredients and display text.
+        Brainstorms ad copy, brand assets, and visual layout concepts using AI Web Search capabilities and optional multimodal screenshot cross-check on the target URL.
+        Supports both Branch 1 (URL Scraping + Vision) and Branch 2 (Brand + Niche Competitor Analysis / Graphic Designer Mode).
         """
         is_url = isinstance(target_url_or_data, str)
-        target_url = target_url_or_data if is_url else target_url_or_data.get("url", "Brand Website")
+        is_branch_2 = isinstance(target_url_or_data, dict) and "niche" in target_url_or_data
+        target_url = target_url_or_data if is_url else target_url_or_data.get("url", target_url_or_data.get("brand_name", "Brand Website"))
+        if num_creatives is None:
+            num_creatives = len(angles_list)
         
         system_prompt = """
-You are an expert commercial advertising designer, AI data analyst, and brand strategist.
-Your task is to analyze the brand website URL provided by the user using your web search and knowledge capabilities to deeply inspect the website, understand the core services, products, value propositions, unique selling points (USPs), target audience, aesthetic, colors, and fonts.
+You are an expert commercial advertising designer, AI data extraction specialist, and brand strategist.
+Your task is to analyze the target website URL (`{URL}`) OR the provided Brand & Niche using your web search, DOM scraping, AND optional visual screenshot cross-checking to perform a deep-dive extraction of the brand identity, messaging, and visual design. 
+
+Your ultimate goal is to design ad creatives optimized for "Cognitive Fluency"—ensuring the ad looks, sounds, and feels exactly like the brand identity or niche expectations so the user experiences zero friction when clicking through.
 
 INSTRUCTIONS:
-1. Conduct a deep, thorough analysis of the target website URL (`{URL}`) and its core business model using your web search tools. Specifically explore:
-   - What core service or product does this company provide?
-   - What are their unique selling propositions (USPs) and primary benefits?
-   - Who is their target audience or ideal customer?
-   - What are their actual pricing plans, key features, or signature offerings?
-2. Deduce the brand's exact color palette (`primaryColor`, `secondaryColor`, and `accentColor` in `#HEX` format).
-3. Select a suitable font pairing from this expanded typography library based on brand personality and industry:
+
+1. DOM & VISUAL SCREENSHOT EXTRACTION (VISUAL IDENTITY):
+   - Scrape and analyze the CSS along with inspecting the attached visual screenshot (if provided) to find the exact Brand Color Palette. Look for `:root` variables (`--primary-color`), visible header colors, and exact CTA button hex colors shown on screen. Define primary, secondary, accent_cta, and background colors strictly in #HEX format.
+   - Analyze Website Typography Feel: Observe the font vibe and personality shown on the website (e.g., modern sans-serif, luxury serif, clean clinical, bold athletic). Reference the website's feel and intelligently select the single best matching Font Pairing specifically from our curated TYPOGRAPHY LIBRARY below that evokes the exact same aesthetic and mood!
+
+2. TYPOGRAPHY LIBRARY (Select One Matching Vibe):
+   Review the categories below and choose the best matching font pair (`heading_font` + `body_font`) tailored to the website's aesthetic and feel:
    - Luxury & High-End Fashion: Italiana (headline) + Lora (body) | Playfair Display (headline) + Montserrat (body) | Cormorant Garamond (headline) + Proza Libre (body)
    - Modern E-Commerce & Tech: Outfit (headline) + WorkSans (body) | Plus Jakarta Sans (headline) + Inter (body) | Syne (headline) + DM Sans (body)
    - Healthcare & Clean Clinical: Manrope (headline) + Open Sans (body) | Lexend (headline) + Nunito Sans (body) | Albert Sans (headline) + Public Sans (body)
@@ -134,72 +148,116 @@ INSTRUCTIONS:
    - Organic, Natural & Eco-Friendly: Fraunces (headline) + Epilogue (body) | Libre Baskerville (headline) + Source Sans 3 (body) | Josefin Sans (headline) + Lato (body)
    - Playful & Youthful Food / Beverage: Fredoka (headline) + Quicksand (body) | Rubik (headline) + Karla (body) | Righteous (headline) + Poppins (body)
    - Classic Corporate & Professional: Cinzel (headline) + Raleway (body) | Prata (headline) + Lato (body) | Merriweather (headline) + Open Sans (body)
-4. Generate exactly {NUM_CREATIVES} ad creative configuration(s), pairing Angle X with Layout X (for X from 1 to {NUM_CREATIVES}).
-   - In `displayText`, craft a compelling, conversion-focused `headline` and `offer` directly based on the exact services, benefits, and value propositions you discovered about the company. Never use generic or placeholder copy.
-   - In `description`, write a comprehensive, highly specific visual rendering prompt for DALL-E 3. Describe the physical scene, subject, environment, materials, lighting, and composition that directly illustrates the company's real service or product in action.
 
-You MUST return a single, valid JSON object strictly adhering to the following schema:
+3. HTML, METADATA & SCREENSHOT AUDIT (MESSAGING & TRUST - ZERO ASSUMPTIONS):
+   - Core Messaging: Extract the Hero Headline (H1) for the value proposition, the Sub-headline (H2), and the Meta Description. The ad copy must align perfectly with what is visually displayed on the website.
+   - CTA Mechanics: Identify the exact text on primary conversion buttons (e.g., "Start Free Trial", "Get a Quote"). 
+   - Trust Signals (100% FACTUAL ONLY & SCREENSHOT VERIFIED): Carefully inspect the attached website screenshot alongside DOM data. Look for review scores, rating counts, or "Trusted By" client lists explicitly rendered on the page. If the website does NOT explicitly display a numeric star rating on screen or in copy, you MUST output `null` or `[]` for those fields (`"rating_score": null`, `"review_count": null`, `"key_client_names": []`). Do NOT invent, assume, or output placeholder numbers like 4.9 or 1000! Only include details that you are 100% sure of and explicitly rendered on the web page!
+
+4. MARKETING ANGLES DIRECTORY (Select One):
+   Review all 10 Angles and select the single best `angle_id` (1-10) tailored to the extracted H1 and core service:
+   1: AIDA (Attention, Interest, Desire, Action) - Brand Story
+   2: PAS (Problem, Agitate, Solution) - Core Pain Point
+   3: BAB (Before-After-Bridge) - Transformation
+   4: Social Proof & Trust (Testimonials / Metrics)
+   5: Product Feature Highlight (Materials & Craftsmanship)
+   6: Innovation & Smart Elements
+   7: The Explorer / Prestige (Psychological Luxury Appeal)
+   8: Minimalist / Contemporary Integration
+   9: Emotional Welcome (Festive / Hospitality / Cultural Richness)
+   10: Legacy & Long-Term Investment Value
+
+5. VISUAL LAYOUTS DIRECTORY (Select One):
+   Review all 10 Layouts and select the single best `layout_id` (1-10) tailored to the brand aesthetic:
+   1: Swiss Grid (Asymmetric left-aligned text layout, minimal background)
+   2: Marble Pedestal (Centered text, products balanced on a white marble platform)
+   3: Linear Gradient Float (Glow effects, products suspended mid-air with soft shadows)
+   4: Diagonal Split-Screen (Two-tone background dividing text and product zones)
+   5: Studio Reflective (Deep charcoal background, products placed on reflective black glass)
+   6: Botanical Minimalist (Overcast natural daylight, soft leaf shadows on concrete walls)
+   7: Monolith Frame (Large geometric backing blocks behind the main product)
+   8: Warm Editorial (Beige paper textures, classic serif margins, clinical markers)
+   9: High-Contrast Spotlight (Dramatic low-key spotlight beam highlighting the product)
+   10: Minimal Collage (Overlaying multiple product angles, staggered offsets)
+
+6. CREATIVE BRIEF GENERATION:
+   - Generate exactly {NUM_CREATIVES} ad creative configuration(s).
+   - `headline`: Must be derived directly from the extracted H1 to ensure cognitive fluency.
+   - `offer`: The core value proposition or sub-headline.
+   - `cta_text`: The exact text from the website's primary button.
+   - `description`: A highly specific visual rendering prompt for GPT Image 2. Describe the physical scene, subject, environment, lighting, and layout based EXACTLY on the chosen layout_id, incorporating the brand colors and trust signals. Do NOT reference or ask for external product/reference image files. Do NOT tell GPT Image 2 to render star ratings or reviews unless they exist in `trust_signals`.
+
+OUTPUT FORMAT:
+You MUST return a single, valid JSON object strictly adhering to the following schema. Do NOT wrap the JSON in markdown blocks if it breaks your API parser.
+
 {
-  "brand_name": "Actual Brand Name Discovered",
-  "service": "Concise summary of the core service or product offered by the company",
-  "brand_style": {
-    "primary": "#HEXCODE",
-    "secondary": "#HEXCODE",
-    "accent": "#HEXCODE",
-    "fonts": {
-      "headline": "HeadlineFontName",
-      "body": "BodyFontName"
+  "brand_name": "Extracted from <title> or Open Graph",
+  "visual_identity": {
+    "colors": {
+      "primary": "#HEXCODE",
+      "secondary": "#HEXCODE",
+      "accent_cta": "#HEXCODE",
+      "background": "#HEXCODE"
+    },
+    "typography": {
+      "heading_font": "Selected Headline Font from Library",
+      "body_font": "Selected Body Font from Library",
+      "vibe_feel": "Brief description of why this font pair matches the website feel"
     }
+  },
+  "messaging": {
+    "value_proposition": "Extracted from <h1>",
+    "sub_headline": "Extracted from <h2>",
+    "primary_cta_text": "Extracted from <button> or <a>"
+  },
+  "trust_signals": {
+    "rating_score": null,
+    "review_count": null,
+    "key_client_names": []
   },
   "creatives": [
     {
-      "angle_id": 1,
-      "layout_id": 1,
-      "brand_name": "Actual Brand Name Discovered",
-      "service": "Concise summary of the core service or product offered by the company",
-      "ingredients": {
-        "brandColors": {
-          "primaryColor": "#HEXCODE",
-          "secondaryColor": "#HEXCODE",
-          "accentColor": "#HEXCODE"
-        },
-        "fonts": {
-          "headlineFont": "HeadlineFontName",
-          "bodyFont": "BodyFontName"
-        }
-      },
+      "angle_id": 6,
+      "layout_id": 9,
       "displayText": {
-        "headline": "Service/Product Specific Headline",
-        "offer": "EXACT SERVICE OFFER OR VALUE PROPOSITION",
-        "footer": "Brand website / Terms"
+        "headline": "Derived from H1",
+        "offer": "Derived from value proposition",
+        "cta_text": "Exact CTA from website",
+        "footer": "Brand URL or Trust Signal text"
       },
-      "style": "design styling keywords describing mood and lighting",
-      "description": "Comprehensive visual scene description showcasing the exact service/product in action for DALL-E rendering"
+      "style": "Keywords describing mood, lighting, and the selected layout style",
+      "description": "Comprehensive visual scene description showcasing the exact service/product in action for GPT Image 2 rendering. Incorporate layout instructions and exact hex codes."
     }
   ]
 }
 """
-        system_prompt = system_prompt.replace("{NUM_CREATIVES}", str(len(angles_list))).replace("{URL}", str(target_url))
+        system_prompt = system_prompt.replace("{NUM_CREATIVES}", str(num_creatives)).replace("{URL}", str(target_url))
 
-        # Format angles and layouts list for prompt
-        angles_formatted = "\n".join([f"Angle {i}: {angle}" for i, angle in enumerate(angles_list, 1)])
-        layouts_formatted = "\n".join([f"Layout {i}: {layout}" for i, layout in enumerate(layouts_list, 1)])
+        if is_branch_2:
+            brand_name = target_url_or_data.get("brand_name", "Brand")
+            niche = target_url_or_data.get("niche", "Service")
+            user_prompt = f"""
+BRANCH 2 - GRAPHIC DESIGNER & COMPETITOR ANALYSIS MODE:
+Target Brand Name: {brand_name}
+Target Niche / Industry: {niche}
 
-        if is_url:
+RUN CONFIGURATION:
+Generate exactly {num_creatives} creative(s).
+You are acting as an agency Creative Director and Lead Graphic Designer for `{brand_name}` inside the `{niche}` industry.
+Use your intelligent Web Search API tools to analyze top-performing competitor websites and visual design leaders inside the `{niche}` niche.
+1. Color & Vibe: Based on color psychology and competitor standards in `{niche}`, select a high-converting `#HEX` color palette and the best matching font pair from our TYPOGRAPHY LIBRARY.
+2. Messaging & Zero-Assumption Trust: Brainstorm high-converting H1/H2 copy tailored to `{brand_name}` and `{niche}`. Since no explicit review metrics were supplied, force `rating_score: null` and `review_count: null`.
+3. Select the best `angle_id` and `layout_id` for `{niche}` and output the complete JSON adhering exactly to the schema instructed above.
+"""
+        elif is_url:
             user_prompt = f"""
 TARGET BRAND WEBSITE URL TO ANALYZE AND SEARCH:
 {target_url}
 
 RUN CONFIGURATION:
-Generate exactly {len(angles_list)} creative(s). Pair Angle X with Layout X (for X from 1 to {len(angles_list)}).
-Use your intelligent web search API tools to inspect {target_url}. Explore and understand the exact services, product catalog, key benefits, target audience, and unique selling points (USPs) of this business.
-Then, deduce its brand color palette (`brandColors`) and typography (`fonts`), and generate the ad creatives tailored precisely to what this company provides.
-
-MARKETING ANGLES LIST:
-{angles_formatted}
-
-VISUAL LAYOUTS LIST:
-{layouts_formatted}
+Generate exactly {num_creatives} creative(s).
+Use your intelligent web search API tools AND visually inspect the attached screenshot (if present) to understand {target_url}. Explore and verify the exact services, catalog, key benefits, target audience, and unique selling points (USPs).
+Then, deduce its brand color palette (`brandColors`) and typography (`fonts`), intelligently select the single best Marketing Angle (`angle_id` 1-10) and Visual Layout (`layout_id` 1-10) directly from the authoritative directories in your System Prompt based on the discovered brand service, and output the complete JSON.
 
 Please output the complete, fully formed JSON adhering exactly to the schema instructed above.
 """
@@ -211,19 +269,13 @@ Optimized HTML Content:
 {target_url_or_data.get('optimized_html')}
 
 RUN CONFIGURATION:
-Generate exactly {len(angles_list)} creative(s). Pair Angle X with Layout X (for X from 1 to {len(angles_list)}).
-From the available data above, deeply analyze the company's core services, offerings, and value propositions. Populate the ingredients (`brandColors`, `fonts`) and tailor the `displayText` and visual `description` precisely to the business's actual services for every creative.
-
-MARKETING ANGLES LIST:
-{angles_formatted}
-
-VISUAL LAYOUTS LIST:
-{layouts_formatted}
+Generate exactly {num_creatives} creative(s).
+From the available data above AND the attached screenshot (if present), deeply analyze the company's core services, offerings, and value propositions. Populate the ingredients (`brandColors`, `fonts`), intelligently select the single best Marketing Angle (`angle_id` 1-10) and Visual Layout (`layout_id` 1-10) directly from the directories in your System Prompt based on the brand service, and output the complete JSON.
 
 Please output the complete, fully formed JSON adhering exactly to the schema instructed above.
 """
 
-        raw_response = self.call_llm(system_prompt, user_prompt, use_search=use_search)
+        raw_response = self.call_llm(system_prompt, user_prompt, use_search=use_search, screenshot_b64=screenshot_b64)
         
         # Programmatic Parsing Pipeline (Robust to LLM format errors)
         import re
@@ -313,11 +365,16 @@ Please output the complete, fully formed JSON adhering exactly to the schema ins
                             
             top_brand = parsed_obj.get("brand_name", "") if isinstance(parsed_obj, dict) else ""
             top_service = parsed_obj.get("service", "") if isinstance(parsed_obj, dict) else ""
+            top_visual_id = parsed_obj.get("visual_identity", {}) if isinstance(parsed_obj, dict) else {}
+            top_messaging = parsed_obj.get("messaging", {}) if isinstance(parsed_obj, dict) else {}
+            top_trust = parsed_obj.get("trust_signals", {}) if isinstance(parsed_obj, dict) else {}
+
             for idx, item in enumerate(raw_list, 1):
                 brand_name_val = item.get("brand_name") or top_brand or item.get("brand", {}).get("name", "Brand")
                 service_val = item.get("service") or top_service or item.get("brand", {}).get("service", "Commercial product or service")
-                headline = item.get("headline", item.get("displayText", {}).get("headline", ""))
-                offer = item.get("offer", item.get("displayText", {}).get("offer", ""))
+                headline = item.get("headline", item.get("displayText", {}).get("headline", top_messaging.get("value_proposition", "")))
+                offer = item.get("offer", item.get("displayText", {}).get("offer", top_messaging.get("sub_headline", "")))
+                cta_text = item.get("cta_text", item.get("displayText", {}).get("cta_text", top_messaging.get("primary_cta_text", "Learn More")))
                 footer = item.get("footer", item.get("displayText", {}).get("footer", "*Terms apply."))
                 style = item.get("style", "minimal modern")
                 description = item.get("description", "Product presentation design.")
@@ -325,13 +382,16 @@ Please output the complete, fully formed JSON adhering exactly to the schema ins
                 item_ingredients = item.get("ingredients", {})
                 brand_style = item.get("brand_style", item.get("brand", {}).get("brandColors", item_ingredients.get("brandColors", {}))) or {}
                 
-                primary_color = brand_style.get("primary", brand_style.get("primaryColor", "#FFFFFF"))
-                secondary_color = brand_style.get("secondary", brand_style.get("secondaryColor", "#000000"))
-                accent_color = brand_style.get("accent", brand_style.get("accentColor", "#FF0000"))
+                colors_dict = top_visual_id.get("colors", {}) if isinstance(top_visual_id, dict) else {}
+                primary_color = colors_dict.get("primary") or brand_style.get("primary", brand_style.get("primaryColor", "#FFFFFF"))
+                secondary_color = colors_dict.get("secondary") or brand_style.get("secondary", brand_style.get("secondaryColor", "#000000"))
+                accent_color = colors_dict.get("accent_cta") or colors_dict.get("accent") or brand_style.get("accent", brand_style.get("accentColor", "#FF0000"))
+                background_color = colors_dict.get("background", "#F4F4F4")
                 
                 fonts = item.get("fonts", brand_style.get("fonts", item_ingredients.get("fonts", {}))) or {}
-                headline_font = fonts.get("headline", fonts.get("headlineFont", "Outfit"))
-                body_font = fonts.get("body", fonts.get("bodyFont", "WorkSans"))
+                typography_dict = top_visual_id.get("typography", {}) if isinstance(top_visual_id, dict) else {}
+                headline_font = typography_dict.get("heading_font") or fonts.get("headline", fonts.get("headlineFont", "Outfit"))
+                body_font = typography_dict.get("body_font") or fonts.get("body", fonts.get("bodyFont", "WorkSans"))
                 
                 # Prioritize product images discovered directly by LLM Web Search API
                 selected_imgs = item_ingredients.get("productImages") or item.get("productImages") or []
@@ -348,10 +408,32 @@ Please output the complete, fully formed JSON adhering exactly to the schema ins
                 ref_image_final = item_ingredients.get("referenceImage") or item.get("referenceImage") or ref_image or (selected_imgs[0] if selected_imgs else "")
                     
                 data = {
-                    "angle_id": idx,
-                    "layout_id": idx,
+                    "angle_id": item.get("angle_id", idx),
+                    "layout_id": item.get("layout_id", idx),
                     "brand_name": brand_name_val,
                     "service": service_val,
+                    "visual_identity": top_visual_id or {
+                        "colors": {
+                            "primary": primary_color,
+                            "secondary": secondary_color,
+                            "accent_cta": accent_color,
+                            "background": background_color
+                        },
+                        "typography": {
+                            "heading_font": headline_font,
+                            "body_font": body_font
+                        }
+                    },
+                    "messaging": top_messaging or {
+                        "value_proposition": headline,
+                        "sub_headline": offer,
+                        "primary_cta_text": cta_text
+                    },
+                    "trust_signals": top_trust or {
+                        "rating_score": None,
+                        "review_count": None,
+                        "key_client_names": []
+                    },
                     "ingredients": {
                         "brandColors": {
                             "primaryColor": primary_color,
@@ -366,6 +448,7 @@ Please output the complete, fully formed JSON adhering exactly to the schema ins
                     "displayText": {
                         "headline": headline,
                         "offer": offer,
+                        "cta_text": cta_text,
                         "footer": footer
                     },
                     "style": style,

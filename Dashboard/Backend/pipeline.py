@@ -5,6 +5,7 @@ import argparse
 from scraper import scrape_and_optimize
 from creative_engine import CreativeEngine, load_env_file
 from prompt_converter import json_to_design_brief
+from screenshot_engine import capture_or_load_screenshot
 
 class AdGenerationPipeline:
     def __init__(self, provider="openai", api_key=None):
@@ -42,55 +43,68 @@ class AdGenerationPipeline:
             "Minimal Collage (Overlaying multiple product angles, staggered offsets)"
         ]
 
-    def run(self, url, bulk=False, output_dir="output_creatives", limit=1, generate_image=True):
+    def run(self, url_or_data, bulk=False, output_dir="output_creatives", limit=1, generate_image=True, screenshot_path=None, use_vision=True):
         """
         Runs the full end-to-end hybrid ad generation pipeline:
-        1. Scrape & Optimize website assets (Deterministic Python).
-        2. Generate structured JSON ad briefs in single-batch LLM calls (saves 90% quota).
-        3. Convert JSON briefs into final GPT Image 2 prompts (Deterministic Python).
-        4. Optionally generate real ad images using Imagen 3 / DALL-E 3.
+        Branch 1 (URL Mode): Scrape & capture visual screenshot for multimodal cross-check.
+        Branch 2 (Brand & Niche Mode): AI acts as Graphic Designer, analyzes competitor websites via Web Search API.
+        Generates structured JSON ad briefs, converts into GPT Image 2 prompts, and renders actual images.
         """
-        print(f"[*] Step 1: Analyzing website structure & extracting assets via AI Web Search API: {url}")
+        is_branch_2 = isinstance(url_or_data, dict) and "niche" in url_or_data
+        target_display = f"Brand: {url_or_data.get('brand_name')} | Niche: {url_or_data.get('niche')}" if is_branch_2 else url_or_data
+        print(f"[*] Step 1: Analyzing target via AI Web Search & Vision API ({'Branch 2: Competitor Analysis & Graphic Designer Mode' if is_branch_2 else 'Branch 1: URL Scraping & Vision Mode'}): {target_display}")
         
         # Create output directory
         os.makedirs(output_dir, exist_ok=True)
         manifest = []
 
+        screenshot_b64 = None
+        if use_vision and not is_branch_2:
+            try:
+                screenshot_target = screenshot_path if screenshot_path else url_or_data
+                screenshot_b64 = capture_or_load_screenshot(screenshot_target, os.path.join(output_dir, "landing_page_screenshot.png"))
+                if screenshot_b64:
+                    print(f"[+] Multimodal Vision Cross-Check enabled (Screenshot Base64 loaded).")
+                else:
+                    print(f"[-] Vision Cross-Check fallback to text/DOM scraping only.")
+            except Exception as e_scr:
+                print(f"[-] Screenshot capture warning: {e_scr}")
+
         # Slicing logic for limit option
-        target_angles = self.angles
-        target_layouts = self.layouts
         if not bulk and limit is None:
             limit = 1
         if limit is not None:
             print(f"[*] Limit parameter enabled. Restricting run to exactly {limit} creative(s) (1 prompt & 1 image).")
-            target_angles = self.angles[:limit]
-            target_layouts = self.layouts[:limit]
 
         # Batched run configurations (each batch is a single API call generating creatives)
         batches = []
         if bulk:
+            target_angles = self.angles[:limit] if limit is not None else self.angles
+            target_layouts = self.layouts[:limit] if limit is not None else self.layouts
             print(f"[*] Bulk mode enabled. Scheduling batch calls to generate creatives matrix...")
             for l_idx, layout in enumerate(target_layouts, 1):
                 batches.append((
                     target_angles, 
                     [layout] * len(target_angles),
                     [a_idx for a_idx in range(1, len(target_angles) + 1)],
-                    [l_idx] * len(target_angles)
+                    [l_idx] * len(target_angles),
+                    len(target_angles)
                 ))
         else:
-            print(f"[*] Standard mode enabled. Generating {len(target_angles)} paired ad creatives in 1 single API call...")
+            print(f"[*] Standard mode enabled. AI will intelligently select best angle & layout from all {len(self.angles)} options...")
             batches.append((
-                target_angles,
-                target_layouts,
-                [i for i in range(1, len(target_angles) + 1)],
-                [i for i in range(1, len(target_layouts) + 1)]
+                self.angles,
+                self.layouts,
+                [i for i in range(1, len(self.angles) + 1)],
+                [i for i in range(1, len(self.layouts) + 1)],
+                limit if limit is not None else 1
             ))
 
-        for b_num, (angles, layouts, angle_ids, layout_ids) in enumerate(batches, 1):
-            print(f"[*] Executing LLM batch {b_num}/{len(batches)} via AI Web Search (generating {len(angles)} creatives)...")
+        for b_num, (angles, layouts, angle_ids, layout_ids, num_creatives) in enumerate(batches, 1):
+            print(f"[*] Executing LLM batch {b_num}/{len(batches)} via AI Web Search & Vision (generating {num_creatives} creatives)...")
             
-            # Call LLM once using Web Search capabilities to generate all creatives for this batch
-            response_json = self.engine.generate_ad_creatives(url, angles, layouts, use_search=True)
+            # Call LLM once using Web Search & Vision capabilities to generate all creatives for this batch
+            response_json = self.engine.generate_ad_creatives(url_or_data, angles, layouts, use_search=True, num_creatives=num_creatives, screenshot_b64=screenshot_b64)
             
             if "error" in response_json:
                 print(f"    [!] Error generating batch: {response_json['error']}")
@@ -105,48 +119,71 @@ class AdGenerationPipeline:
                 angle_name = self.angles[a_idx - 1] if 0 < a_idx <= len(self.angles) else "Custom Angle"
                 layout_name = self.layouts[l_idx - 1] if 0 < l_idx <= len(self.layouts) else "Custom Layout"
                 
-                clean_brand = re.sub(r'[\\/*?:"<>|]', "", creative.get("brand_name", "Brand")).strip()
-                if not clean_brand or clean_brand.lower() == "brand":
-                    # Try to deduce from URL if possible or fallback
-                    clean_brand = "Brand"
+                # Enrich creative data with full context for converter
+                creative["angle_name"] = angle_name
+                creative["layout_name"] = layout_name
                 
-                if len(creatives) == 1:
-                    creative_id = f"{clean_brand} Ad Creative"
+                # Populate top-level visual identity & messaging if returned
+                if "visual_identity" in response_json:
+                    creative["visual_identity"] = response_json["visual_identity"]
+                if "messaging" in response_json:
+                    creative["messaging"] = response_json["messaging"]
+                if "trust_signals" in response_json:
+                    creative["trust_signals"] = response_json["trust_signals"]
+                if "brand_name" in response_json and response_json["brand_name"]:
+                    creative["brand_name"] = response_json["brand_name"]
+                elif is_branch_2:
+                    creative["brand_name"] = url_or_data.get("brand_name", "Brand")
+
+                # Convert to design brief prompt
+                brief_prompt = json_to_design_brief(creative)
+                
+                # Naming and saving
+                brand_str = creative.get("brand_name", "").strip() or (url_or_data.get("brand_name") if is_branch_2 else "Brand")
+                clean_brand = re.sub(r'[^a-zA-Z0-9_-]', ' ', brand_str).strip() or "Brand"
+                clean_brand = " ".join(clean_brand.split()[:3])
+                
+                # Unique file naming for bulk vs single
+                if bulk or limit is not None and limit > 1:
+                    base_filename = f"{clean_brand} Angle_{a_idx} Layout_{l_idx}"
                 else:
-                    creative_id = f"{clean_brand} Ad Creative - Angle {a_idx} Layout {l_idx}"
+                    base_filename = f"{clean_brand} Ad Creative"
+                    
+                json_path = os.path.join(output_dir, f"{base_filename}.json")
+                txt_path = os.path.join(output_dir, f"{base_filename}.txt")
+                img_path = os.path.join(output_dir, f"{base_filename}.png")
                 
-                # Programmatically convert to GPT Image 2 prompt
-                design_brief_prompt = json_to_design_brief(creative)
-                
-                # Setup structured output paths
-                filename_base = os.path.join(output_dir, creative_id)
-                
-                # Save JSON
-                with open(f"{filename_base}.json", "w", encoding="utf-8") as f:
+                # Save JSON brief
+                with open(json_path, "w", encoding="utf-8") as f:
                     json.dump(creative, f, indent=2)
+                print(f"    [+] Saved structured brief: {json_path}")
                 
-                # Save Design Brief Text Prompt
-                with open(f"{filename_base}.txt", "w", encoding="utf-8") as f:
-                    f.write(design_brief_prompt)
-                
-                # Generate actual image using API if requested
-                image_generated = False
-                image_filename = f"{creative_id}.png"
-                if generate_image:
-                    image_path = os.path.join(output_dir, image_filename)
-                    image_generated = self.engine.generate_image(design_brief_prompt, image_path)
+                # Save TXT prompt
+                with open(txt_path, "w", encoding="utf-8") as f:
+                    f.write(brief_prompt)
+                print(f"    [+] Saved design prompt: {txt_path}")
                 
                 manifest_entry = {
-                    "id": creative_id,
-                    "angle_id": a_idx,
-                    "angle_name": angle_name,
-                    "layout_id": l_idx,
-                    "layout_name": layout_name,
-                    "json_file": f"{creative_id}.json",
-                    "prompt_file": f"{creative_id}.txt",
-                    "image_file": image_filename if image_generated else None,
+                    "id": base_filename,
+                    "brand": brand_str,
+                    "angle": angle_name,
+                    "layout": layout_name,
+                    "json_path": json_path,
+                    "prompt_path": txt_path,
+                    "image_path": None,
+                    "json_file": f"{base_filename}.json",
+                    "prompt_file": f"{base_filename}.txt",
+                    "image_file": None,
                     "data": creative
                 }
+
+                # Generate Actual Image using GPT Image 2 model
+                if generate_image:
+                    img_success = self.engine.generate_image(brief_prompt, img_path)
+                    if img_success:
+                        manifest_entry["image_path"] = img_path
+                        manifest_entry["image_file"] = f"{base_filename}.png"
+                
                 manifest.append(manifest_entry)
 
         # Save unified manifest of all creatives
@@ -160,16 +197,23 @@ class AdGenerationPipeline:
 if __name__ == "__main__":
     load_env_file()
     parser = argparse.ArgumentParser(description="BloomX Ad Creative Generation Pipeline (OpenAI API)")
-    parser.add_argument("--url", type=str, required=True, help="Brand website URL to analyze")
+    parser.add_argument("--url", type=str, required=False, default=None, help="Brand website URL to analyze (Branch 1 Mode)")
+    parser.add_argument("--brand", type=str, required=False, default=None, help="Brand name to analyze via competitor design standards (Branch 2 Mode)")
+    parser.add_argument("--niche", type=str, required=False, default=None, help="Brand service/niche to analyze top competitors (Branch 2 Mode)")
     parser.add_argument("--provider", type=str, default="openai", choices=["openai"], help="LLM API provider (OpenAI exclusively)")
     parser.add_argument("--bulk", action="store_true", help="Generate 100 creatives matrix (10 angles x 10 layouts)")
     parser.add_argument("--output", type=str, default="output_creatives", help="Directory to save generated creatives")
     parser.add_argument("--limit", type=int, default=1, help="Limit number of creatives to generate (defaults to 1)")
     parser.add_argument("--image", action="store_true", default=True, dest="image", help="Generate actual ad creative image (defaults to True)")
-    parser.add_argument("--no-image", action="store_false", dest="image", help="Skip DALL-E image generation API (test Stage 1 & Stage 2 prompt compilation only)")
+    parser.add_argument("--no-image", action="store_false", dest="image", help="Skip GPT Image 2 API (test Stage 1 & Stage 2 prompt compilation only)")
+    parser.add_argument("--screenshot", type=str, default=None, help="Optional path to local screenshot image to pass for vision cross-check")
+    parser.add_argument("--no-vision", action="store_false", dest="use_vision", default=True, help="Disable multimodal screenshot cross-checking")
     
     args = parser.parse_args()
     
+    if not args.url and not (args.brand and args.niche):
+        parser.error("You must specify either --url (Branch 1: URL Mode) OR both --brand and --niche (Branch 2: Graphic Designer Mode).")
+        
     # Retrieve API key from environment or .env
     api_key = os.environ.get("OPENAI_API_KEY") or os.environ.get("LLM_API_KEY")
     if not api_key:
@@ -178,4 +222,8 @@ if __name__ == "__main__":
         
     limit_val = None if args.bulk else args.limit
     pipeline = AdGenerationPipeline(provider="openai", api_key=api_key)
-    pipeline.run(args.url, bulk=args.bulk, output_dir=args.output, limit=limit_val, generate_image=args.image)
+    
+    if args.url:
+        pipeline.run(args.url, bulk=args.bulk, output_dir=args.output, limit=limit_val, generate_image=args.image, screenshot_path=args.screenshot, use_vision=args.use_vision)
+    else:
+        pipeline.run({"brand_name": args.brand, "niche": args.niche}, bulk=args.bulk, output_dir=args.output, limit=limit_val, generate_image=args.image, screenshot_path=args.screenshot, use_vision=args.use_vision)

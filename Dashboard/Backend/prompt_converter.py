@@ -1,178 +1,99 @@
 def json_to_design_brief(json_data):
     """
     Converts a structured JSON payload into the final formatted text design brief
-    matching the GPT Image 2 Prompt Architecture.
+    matching the Cognitive Fluency Prompt Architecture.
     """
-    display_text = json_data.get("displayText", {})
-    ingredients = json_data.get("ingredients", {})
-    brand_colors = ingredients.get("brandColors", {})
-    fonts = ingredients.get("fonts", {})
+    creative_data = json_data
+    typography = json_data.get("visual_identity", {}).get("typography", {})
+    heading_font = typography.get("heading_font", "Outfit")
+    body_font = typography.get("body_font", "WorkSans")
+    vibe_feel = typography.get("vibe_feel", "Modern and clean aesthetic aligning with website feel")
+
+    trust = json_data.get("trust_signals", {})
+    rating = trust.get("rating_score") if isinstance(trust, dict) else None
+    reviews = trust.get("review_count") if isinstance(trust, dict) else None
+    clients = trust.get("key_client_names") if isinstance(trust, dict) else []
+
+    trust_items = []
+    if rating is not None and reviews is not None and rating != "null" and reviews != "null" and str(rating).strip() != "" and str(reviews).strip() != "":
+        trust_items.append(f"{rating} Stars | {reviews} Reviews")
+    elif rating is not None and rating != "null" and str(rating).strip() != "":
+        trust_items.append(f"{rating} Stars")
     
-    product_images_str = "\n".join([f"- {url}" for url in ingredients.get("productImages", [])])
-    ref_image_str = f"- {ingredients.get('referenceImage')}" if ingredients.get("referenceImage") else "None provided"
+    clean_clients = [str(c) for c in clients if c and str(c) not in ("Client 1", "Client 2", "null", "None")] if isinstance(clients, list) else []
+    if clean_clients:
+        trust_items.append("Trusted by: " + ", ".join(clean_clients))
 
-    brief_template = f"""You are an expert commercial advertising designer specializing in premium Interior Design, textile, Furniture, Floor Tiles, Hospitals, Resorts, and consumer product advertisements.
+    trust_str = " | ".join(trust_items) if trust_items else "No numeric ratings or review counts listed explicitly on website (STRICT FACTUALITY: DO NOT hallucinate, invent, or draw any star ratings, review numbers, or fake badges anywhere on the image)."
 
-Your objective is to create a professional marketing creative suitable for social media advertising, Amazon listings, websites, and paid campaigns.
+    brief_template = f"""Create a brand-new image from scratch. Do not edit, modify, or use any existing image.
+
+You are an expert commercial advertising designer. Your objective is to create a professional marketing creative that achieves perfect "Cognitive Fluency"—meaning this ad must look, feel, and read exactly like the brand's landing page to ensure zero friction when a user clicks through.
 
 --------------------------------------------------
-INPUT ASSETS
+BRAND IDENTITY & VISUAL FEEL
 --------------------------------------------------
-
-Product Images
-{product_images_str}
-
-Reference Image
-{ref_image_str}
-
-Brand Identity
 Brand Name: {json_data.get('brand_name', 'Brand')}
-Core Service/Offering: {json_data.get('service', 'Commercial product or service')}
+Core Value Proposition: {json_data.get('messaging', {}).get('value_proposition', 'Premium Service')}
+Trust Signals: {trust_str}
 
-Brand Color Palette
-Primary Color: {brand_colors.get('primaryColor', '#FFFFFF')}
-Secondary Color: {brand_colors.get('secondaryColor', '#000000')}
-Accent Color: {brand_colors.get('accentColor', '#FF0000')}
+Brand Color Palette (EXACT CSS MATCH):
+Primary Color: {json_data.get('visual_identity', {}).get('colors', {}).get('primary', '#FFFFFF')}
+Secondary Color: {json_data.get('visual_identity', {}).get('colors', {}).get('secondary', '#000000')}
+Accent/CTA Color: {json_data.get('visual_identity', {}).get('colors', {}).get('accent_cta', '#FF0000')}
+Background Color: {json_data.get('visual_identity', {}).get('colors', {}).get('background', '#F4F4F4')}
 
-User Description
-{json_data.get('description', '')}
+Typography & Vibe Match (Feel Continuity):
+Headline Font Style: {heading_font}
+Body Font Style: {body_font}
+Website Typography Feel: {vibe_feel}
+(Render the typography strictly simulating this exact font personality and vibe so it feels identical to the website experience).
 
---------------------------------------------------
-TEXT TO DISPLAY
---------------------------------------------------
-
-Display the following text EXACTLY as provided.
-
-Headline: {display_text.get('headline', '')}
-Offer: {display_text.get('offer', '')}
-Footer: {display_text.get('footer', '')}
-
-Do not rewrite.
-Do not summarize.
-Do not translate.
-Do not add promotional text.
+Art Direction & Scene:
+{creative_data.get('description', '')}
 
 --------------------------------------------------
-BRAND GUIDELINES
+TEXT TO DISPLAY (COGNITIVE FLUENCY RULES)
 --------------------------------------------------
+Display the following text EXACTLY as provided. It was extracted directly from the website's DOM to ensure landing page continuity. Do not rewrite or hallucinate additional copy.
 
-Primary Color: {brand_colors.get('primaryColor', '#FFFFFF')}
-Secondary Color: {brand_colors.get('secondaryColor', '#000000')}
-Accent Color: {brand_colors.get('accentColor', '#FF0000')}
-
-Typography Style:
-Headline Font: {fonts.get('headlineFont', 'Outfit')}
-Body Font: {fonts.get('bodyFont', 'WorkSans')}
-Style: Modern, Premium, Clean, Bold hierarchy
-
-Overall Mood:
-{json_data.get('style', 'Premium')}
+Headline (H1 Match): {creative_data.get('displayText', {}).get('headline', '')}
+Offer Subtext: {creative_data.get('displayText', {}).get('offer', '')}
+Button Text (CTA): {creative_data.get('displayText', {}).get('cta_text', '')}
+Footer / Trust: {creative_data.get('displayText', {}).get('footer', '')}
 
 --------------------------------------------------
-PRODUCT RULES
+LAYOUT & COMPOSITION RULES
 --------------------------------------------------
-
-Always use the provided product images.
-Never redesign the packaging.
-Never modify labels.
-Never crop important product details.
-Keep products sharp and realistic.
-Use realistic reflections and shadows.
-Maintain accurate proportions.
-Products should remain the visual focus.
+1. Maintain strong visual hierarchy using a clean modern design grid.
+2. Separate layout zones:
+   - Top 40% of the canvas: Exclusively reserved for Headline, Offer, and brand metadata.
+   - Bottom 60% of the canvas: Reserved for clean staging surfaces, product representations, and shadows.
+3. Call-To-Action (CTA) Mechanics: The Button Text must be placed in a distinct, high-contrast button shape at the bottom of the creative, utilizing the EXACT Accent/CTA Hex Color provided above. 
+4. Trust Signals (STRICT ZERO ASSUMPTIONS): Only render numeric star ratings or review numbers if factual metrics are explicitly listed above in "Trust Signals:". If none are explicitly listed (`No numeric ratings...`), DO NOT invent, assume, or draw any fake stars, review counts, or badges on the image canvas!
+5. Text and visual elements must occupy separate, distinct negative space zones. Do not overlap text onto complex background details.
 
 --------------------------------------------------
-LAYOUT RULES
+VISUAL STYLE & MOOD
 --------------------------------------------------
-
-Maintain strong visual hierarchy using a clean modern design grid.
-Separate layout zones:
-- Top 40% of the canvas: Exclusively reserved for Headline, Offer, and brand metadata.
-- Bottom 60% of the canvas: Reserved for product images, clean staging surfaces, and shadows.
-Never overlap text elements with the product images.
-Text and products must occupy separate, distinct negative space zones.
-Provide ample breathing room (at least 15% margin padding on all edges).
-Maintain stable, balanced composition without visual clutter.
+Overall Mood: {creative_data.get('style', 'Premium, Commercial')}
+- Commercial advertising aesthetic.
+- Studio lighting with soft realistic shadows.
+- Utilize the extracted Background Color to establish the environment.
+- High realism, crisp edges, accurate colors, and photorealistic materials.
 
 --------------------------------------------------
-TEXT LAYOUT
+CONSTRAINTS & NEGATIVE PROMPT
 --------------------------------------------------
-
-Follow these strict typography layout rules:
-All text must be perfectly aligned (either clean left-alignment along a single vertical axis, or centered).
-Headline must be bold and dominant.
-Primary Offer must be the largest, most eye-catching text on the page.
-Supporting copy must be set in a smaller, lighter font weight.
-Place text only on clean, flat negative space or solid/subtle gradient backing blocks to guarantee maximum contrast and readability.
-CTA (Call to Action) must be isolated at the bottom in a visible, clean rectangular container or standalone block.
-Respect letter-spacing (kerning) and line-height (leading). Never warp, stretch, or distort the typography.
-
---------------------------------------------------
-VISUAL STYLE
---------------------------------------------------
-
-Commercial product photography
-Studio lighting
-Luxury advertising
-Minimal composition
-Soft realistic shadows
-Premium gradients
-Modern geometric composition
-Clean negative space
-High-end e-commerce aesthetic
-
---------------------------------------------------
-BACKGROUND
---------------------------------------------------
-
-Create a clean premium background.
-Use the supplied brand colors.
-Use subtle gradients.
-Add depth without distracting from products.
-
---------------------------------------------------
-REFERENCE IMAGE
---------------------------------------------------
-
-If a reference image is supplied:
-Match overall composition, visual balance, style, lighting, spacing, and graphic language.
-Do NOT copy.
-Do NOT recreate.
-Do NOT duplicate.
-Only use it as inspiration.
-
---------------------------------------------------
-IMAGE QUALITY
---------------------------------------------------
-
-Ultra clean
-Commercial quality
-High realism
-Crisp edges
-Accurate colors
-Premium lighting
-Photorealistic materials
-
---------------------------------------------------
-CONSTRAINTS
---------------------------------------------------
-
 Do NOT:
-- change branding
-- invent offers
-- change product labels
-- invent logos
-- add watermarks
-- add random icons
-- add decorative elements unrelated to the product
-- misspell any text
-- hallucinate extra packaging
+- change branding or invent logos.
+- use random fonts; strictly mirror the Typography Vibe & Font Style specified (`{heading_font}` + `{body_font}`).
+- hallucinate extra packaging, random icons, or decorative elements.
+- misspell any text (Check the Headline and CTA twice).
+- crowd the image; leave ample breathing room (15% padding).
 
---------------------------------------------------
-SUCCESS CRITERIA
---------------------------------------------------
-
-The final creative should look like it was designed by a professional advertising agency for a premium consumer brand.
+SUCCESS CRITERIA:
+The final image must look like a high-converting, agency-grade social media ad that flawlessly matches the visual and tonal identity of the original website.
 """
     return brief_template.strip()
 
