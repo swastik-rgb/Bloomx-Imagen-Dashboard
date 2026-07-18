@@ -16,6 +16,16 @@ class DashboardRequestHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=BASE_DIR, **kwargs)
 
+    def end_headers(self):
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization")
+        super().end_headers()
+
+    def do_OPTIONS(self):
+        self.send_response(200, "ok")
+        self.end_headers()
+
     def do_GET(self):
         # Serve index.html for root path
         if self.path == "/" or self.path == "/index.html":
@@ -120,7 +130,6 @@ class DashboardRequestHandler(SimpleHTTPRequestHandler):
     def send_json_response(self, status_code, data):
         self.send_response(status_code)
         self.send_header("Content-Type", "application/json")
-        self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
         self.wfile.write(json.dumps(data).encode("utf-8"))
 
