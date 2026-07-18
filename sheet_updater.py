@@ -149,7 +149,11 @@ def update_lead_sheet(data_dict, creative_link="", drive_status="", target_row_i
         else:
             print("[*] Appending new row to Google Sheet...")
             new_row = [""] * len(headers)
-            map_field(new_row, "timestamp", datetime.now().strftime("%d/%m/%Y, %I:%M:%S %p"))
+            
+            from datetime import timedelta
+            now_ist = datetime.utcnow() + timedelta(hours=5, minutes=30)
+            
+            map_field(new_row, "timestamp", now_ist.strftime("%d/%m/%Y, %I:%M:%S %p").lower())
             map_field(new_row, "lead type", "Ad Creative")
             map_field(new_row, "name", name)
             map_field(new_row, "email", email)
