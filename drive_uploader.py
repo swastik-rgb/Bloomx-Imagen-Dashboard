@@ -78,19 +78,6 @@ def upload_to_gdrive(file_path, filename=None, folder_id=None):
             )
             if not creds.valid:
                 creds.refresh(Request())
-        
-        # Or check Service Account variables in .env
-        elif os.environ.get("GOOGLE_CLIENT_EMAIL") and os.environ.get("GOOGLE_PRIVATE_KEY"):
-            print("[*] Authenticating with Google Drive via Service Account from .env...")
-            info = {
-                "type": "service_account",
-                "client_email": os.environ.get("GOOGLE_CLIENT_EMAIL"),
-                "private_key": os.environ.get("GOOGLE_PRIVATE_KEY").replace("\\n", "\n"),
-                "token_uri": "https://oauth2.googleapis.com/token"
-            }
-            creds = service_account.Credentials.from_service_account_info(
-                info, scopes=["https://www.googleapis.com/auth/drive"]
-            )
         else:
             # Locate credentials file
             cred_paths = [

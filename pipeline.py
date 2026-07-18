@@ -207,7 +207,7 @@ class AdGenerationPipeline:
                             gdrive_res = upload_to_gdrive(img_path, filename=f"{base_filename}.png")
                             if gdrive_res and isinstance(gdrive_res, dict):
                                 manifest_entry["gdrive_id"] = gdrive_res.get("id")
-                                g_link = gdrive_res.get("webViewLink") or f"https://drive.google.com/file/d/{gdrive_res.get('id')}/view?usp=drive_link"
+                                g_link = f"https://drive.google.com/uc?export=download&id={gdrive_res.get('id')}"
                                 manifest_entry["gdrive_link"] = g_link
                                 creative_link = g_link
                                 drive_status = "Success"
@@ -230,7 +230,7 @@ class AdGenerationPipeline:
                                         folder_id=os.environ.get("GOOGLE_DRIVE_FOLDER_ID")
                                     )
                                     if scr_res and isinstance(scr_res, dict):
-                                        screenshot_link = scr_res.get("webViewLink") or f"https://drive.google.com/file/d/{scr_res.get('id')}/view?usp=drive_link"
+                                        screenshot_link = f"https://drive.google.com/uc?export=download&id={scr_res.get('id')}"
                                 except Exception as e_scr_up:
                                     print(f"[-] Google Drive screenshot upload error: {e_scr_up}")
 
@@ -241,7 +241,7 @@ class AdGenerationPipeline:
                                 "sys_prompt": getattr(self.engine, "last_system_prompt", ""),
                                 "user_prompt": getattr(self.engine, "last_user_prompt", ""),
                                 "raw_output": getattr(self.engine, "last_raw_response", ""),
-                                "image_prompt": prompt_text,
+                                "image_prompt": brief_prompt,
                                 "raw_image_output": getattr(self.engine, "last_image_raw_response", ""),
                                 "drive_link": creative_link,
                                 "screenshot_link": screenshot_link

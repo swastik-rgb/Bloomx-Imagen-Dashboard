@@ -23,27 +23,32 @@ def get_sheets_service():
 
     spreadsheet_id = os.environ.get("GOOGLE_SHEET_ID") or os.environ.get("SPREADSHEET_ID") or DEFAULT_SPREADSHEET_ID
 
-    # Check Service Account credentials from .env first (verified and working reliably)
-    client_email = os.environ.get("GOOGLE_CLIENT_EMAIL")
-    pk = os.environ.get("GOOGLE_PRIVATE_KEY", "")
-    if "\\n" in pk: pk = pk.replace("\\n", "\n")
-    if "\\\\n" in pk: pk = pk.replace("\\\\n", "\n")
-
-    if client_email and pk and "-----BEGIN" in pk:
+    # Try direct OAuth 2 variables
+    oauth_refresh = os.environ.get("GOOGLE_OAUTH_REFRESH_TOKEN")
+    oauth_client_id = os.environ.get("GOOGLE_OAUTH_CLIENT_ID")
+    oauth_client_secret = os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET")
+    
+    if oauth_refresh and oauth_client_id and oauth_client_secret:
         try:
-            info = {
-                "type": "service_account",
-                "client_email": client_email,
-                "private_key": pk,
-                "token_uri": "https://oauth2.googleapis.com/token"
-            }
-            creds = service_account.Credentials.from_service_account_info(
-                info, scopes=["https://www.googleapis.com/auth/spreadsheets"]
+            from google.oauth2.credentials import Credentials
+            from google.auth.transport.requests import Request
+            print("[*] Authenticating with Google Sheets via OAuth 2 Refresh Token from .env...")
+            
+            creds = Credentials(
+                token=None,
+                refresh_token=oauth_refresh,
+                token_uri="https://oauth2.googleapis.com/token",
+                client_id=oauth_client_id,
+                client_secret=oauth_client_secret,
+                scopes=None
             )
+            if not creds.valid:
+                creds.refresh(Request())
+                
             service = build("sheets", "v4", credentials=creds)
             return service, spreadsheet_id
-        except Exception as e_sa:
-            print(f"[-] Service account sheets auth error: {e_sa}")
+        except Exception as e_oauth:
+            print(f"[-] OAuth 2 sheets auth error: {e_oauth}")
 
     return None, spreadsheet_id
 
