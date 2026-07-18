@@ -36,6 +36,11 @@ def get_sheets_service():
     clean_pk = re.sub(r"\s+", "", clean_pk) # Strip all spaces and newlines
     
     if clean_pk:
+        # Fix padding if Coolify or env parsers stripped trailing equals signs
+        padding_needed = len(clean_pk) % 4
+        if padding_needed > 0:
+            clean_pk += "=" * (4 - padding_needed)
+            
         chunks = [clean_pk[i:i+64] for i in range(0, len(clean_pk), 64)]
         pk = "-----BEGIN PRIVATE KEY-----\n" + "\n".join(chunks) + "\n-----END PRIVATE KEY-----\n"
     if "\\\\n" in pk: pk = pk.replace("\\\\n", "\n")
