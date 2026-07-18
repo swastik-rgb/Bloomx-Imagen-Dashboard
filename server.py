@@ -26,6 +26,13 @@ class DashboardRequestHandler(SimpleHTTPRequestHandler):
         self.send_response(200, "ok")
         self.end_headers()
 
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+        self.end_headers()
+
     def do_GET(self):
         # Serve index.html for root path
         if self.path == "/" or self.path == "/index.html":
@@ -84,46 +91,37 @@ class DashboardRequestHandler(SimpleHTTPRequestHandler):
                     self.send_error_response("Error: OPENAI_API_KEY is not set in your .env file or environment.")
                     return
 
-                # Run Ad Generation Pipeline using OpenAI API with limit=1 and generate_image=True
-                pipeline = AdGenerationPipeline(provider="openai", api_key=api_key)
-                manifest = pipeline.run(
-                    url_or_data=target_input, 
-                    bulk=False, 
-                    output_dir=OUTPUT_DIR, 
-                    limit=1, 
-                    generate_image=True
-                )
+                # Send immediate 200 OK success response to frontend
+                self.send_json_response(200, {"success": True, "message": "Ad Creative generation started in the background."})
                 
-                if not manifest or len(manifest) == 0:
-                    self.send_error_response("Failed to generate ad creative. Please check your inputs and API key.")
-                    return
-                
-                creative = manifest[0]
-                creative_id = creative.get("id", "creative")
-                
-                # Read generated prompt text
-                prompt_path = os.path.join(OUTPUT_DIR, creative["prompt_file"])
-                prompt_text = ""
-                if os.path.exists(prompt_path):
-                    with open(prompt_path, "r", encoding="utf-8") as pf:
-                        prompt_text = pf.read()
-                
-                # Prepare clean response
-                response_data = {
-                    "success": True,
-                    "manifest": manifest,
-                    "creative": creative,
-                    "image_url": f"/output_creatives/{creative.get('image_file') or f'{creative_id}.png'}",
-                    "prompt_url": f"/output_creatives/{creative['prompt_file']}",
-                    "prompt_text": prompt_text
-                }
-                
-                self.send_json_response(200, response_data)
+                # Define background task
+                def background_task(t_input, a_key):
+                    try:
+                        print("[*] Background task started...")
+                        pipeline = AdGenerationPipeline(provider="openai", api_key=a_key)
+                        manifest = pipeline.run(
+                            url_or_data=t_input, 
+                            bulk=False, 
+                            output_dir=OUTPUT_DIR, 
+                            limit=1, 
+                            generate_image=True
+                        )
+                        print("[*] Background task completed. Manifest:", manifest)
+                    except Exception as e:
+                        print("Background task error:", e)
+                        import traceback
+                        traceback.print_exc()
+                        
+                import threading
+                thread = threading.Thread(target=background_task, args=(target_input, api_key))
+                thread.daemon = True
+                thread.start()
                 
             except Exception as e:
                 import traceback
                 traceback.print_exc()
-                self.send_error_response(f"Server error during generation: {str(e)}")
+                if not self.headers_sent if hasattr(self, 'headers_sent') else True:
+                    self.send_error_response(f"Server error during generation: {str(e)}")
         else:
             self.send_error(404, "Endpoint not found")
 
