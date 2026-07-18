@@ -84,6 +84,14 @@ class DashboardRequestHandler(SimpleHTTPRequestHandler):
                     self.send_error_response("Error: OPENAI_API_KEY is not set in your .env file or environment.")
                     return
 
+                # 0. Instantly save lead to Google Sheets
+                try:
+                    from sheet_updater import update_lead_sheet
+                    print("[*] Instantly saving lead to Google Sheets...")
+                    update_lead_sheet(target_input, creative_link="", drive_status="Processing")
+                except Exception as e_sheet:
+                    print(f"[-] Initial sheet save failed: {e_sheet}")
+
                 # Send immediate 200 OK success response to frontend
                 self.send_json_response(200, {"success": True, "message": "Ad Creative generation started in the background."})
                 

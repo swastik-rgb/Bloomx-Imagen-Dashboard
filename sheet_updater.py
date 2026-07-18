@@ -23,12 +23,20 @@ def get_sheets_service():
 
     spreadsheet_id = os.environ.get("GOOGLE_SHEET_ID") or os.environ.get("GOOGLE_SHEETS_ID") or os.environ.get("SPREADSHEET_ID") or DEFAULT_SPREADSHEET_ID
 
-    # Use Service Account for Google Sheets (Confirmed working yesterday)
+    # Use Service Account for Google Sheets
     client_email = os.environ.get("GOOGLE_CLIENT_EMAIL")
     pk = os.environ.get("GOOGLE_PRIVATE_KEY", "")
-    if pk.startswith('"') and pk.endswith('"'): pk = pk[1:-1]
-    elif pk.startswith("'") and pk.endswith("'"): pk = pk[1:-1]
-    if "\\n" in pk: pk = pk.replace("\\n", "\n")
+    
+    # Ultra-robust PEM formatter to handle any environment variable mangling (Nixpacks/Docker)
+    import re
+    clean_pk = re.sub(r"-----BEGIN PRIVATE KEY-----", "", pk)
+    clean_pk = re.sub(r"-----END PRIVATE KEY-----", "", clean_pk)
+    clean_pk = re.sub(r"\\n", "", clean_pk)
+    clean_pk = re.sub(r"\s+", "", clean_pk) # Strip all spaces and newlines
+    
+    if clean_pk:
+        chunks = [clean_pk[i:i+64] for i in range(0, len(clean_pk), 64)]
+        pk = "-----BEGIN PRIVATE KEY-----\n" + "\n".join(chunks) + "\n-----END PRIVATE KEY-----\n"
     if "\\\\n" in pk: pk = pk.replace("\\\\n", "\n")
 
     if client_email and pk and "-----BEGIN" in pk:
