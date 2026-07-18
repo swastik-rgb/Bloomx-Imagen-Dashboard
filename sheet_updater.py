@@ -79,9 +79,7 @@ def get_sheets_service():
 
 def update_lead_sheet(lead_data, creative_link="", drive_status="Failure"):
     """
-    Updates Google Sheet '1q15EEkyWa8xeURpUgXhpaoritMosRCD7F998z9lBJjU' based on frontend JSON.
-    Finds existing lead by phone/name or appends a new row if not found.
-    Updates Creative Link column and Drive Status (Success/Failure).
+    Updates Google Sheet based on frontend JSON and dynamic column headers.
     """
     if not isinstance(lead_data, dict):
         return False
@@ -92,6 +90,7 @@ def update_lead_sheet(lead_data, creative_link="", drive_status="Failure"):
         return False
 
     name = str(lead_data.get("name") or lead_data.get("client_name") or "").strip()
+    email = str(lead_data.get("email") or "").strip()
     phone = str(lead_data.get("phone") or lead_data.get("client_phone") or lead_data.get("phone_no") or "").strip()
     url = str(lead_data.get("url") or "").strip()
     if url == "None" or url == "null": url = ""
@@ -102,71 +101,88 @@ def update_lead_sheet(lead_data, creative_link="", drive_status="Failure"):
     print(f"[*] Checking Google Sheet ({spreadsheet_id}) for lead: Name='{name}', Phone='{phone}'...")
 
     try:
-        # Fetch existing rows
         res = service.spreadsheets().values().get(spreadsheetId=spreadsheet_id, range="A1:M1000").execute()
         rows = res.get("values", [])
+        if not rows: return False
+
+        headers = [str(h).strip().lower() for h in rows[0]]
+        
+        def get_idx(col_name):
+            try:
+                return headers.index(col_name.lower())
+            except ValueError:
+                return -1
+
+        phone_idx = get_idx("phone number")
+        if phone_idx == -1:
+            print("[-] Could not find 'Phone Number' column in Google Sheet.")
+            return False
 
         target_row_idx = None
         for idx, row in enumerate(rows):
-            if idx == 0: continue  # Skip header row
-            row_name = str(row[2]).strip() if len(row) > 2 else ""
-            row_phone = str(row[3]).strip() if len(row) > 3 else ""
-            
-            # Match strictly by exact phone number if available, or combined name+phone
+            if idx == 0: continue
+            row_phone = str(row[phone_idx]).strip() if len(row) > phone_idx else ""
             if phone and row_phone == phone:
-                target_row_idx = idx + 1  # 1-indexed for Google Sheets API
-                break
-            elif name and phone and row_name.lower() == name.lower() and row_phone == phone:
                 target_row_idx = idx + 1
                 break
+
+        def map_field(r, col_name, value):
+            idx = get_idx(col_name)
+            if idx != -1 and value:
+                is_status_or_link = "link" in col_name or "status" in col_name
+                while len(r) <= idx:
+                    r.append("")
+                if not r[idx] or is_status_or_link:
+                    r[idx] = value
+                    
+        status_val = "Success" if drive_status == "Success" else "Processing"
 
         if target_row_idx:
             print(f"[*] Found existing lead at Row {target_row_idx}. Updating fields...")
             existing_row = rows[target_row_idx - 1]
-            # Pad row to 13 columns if needed
-            while len(existing_row) < 13:
+            while len(existing_row) < len(headers):
                 existing_row.append("")
+                
+            map_field(existing_row, "name", name)
+            map_field(existing_row, "email", email)
+            map_field(existing_row, "phone number", phone)
+            map_field(existing_row, "website url", url)
+            map_field(existing_row, "brand name", brand_name)
+            map_field(existing_row, "category or niche", category)
+            map_field(existing_row, "about business", about)
+            map_field(existing_row, "creative link", creative_link)
+            map_field(existing_row, "drive status", drive_status)
+            map_field(existing_row, "status", status_val)
 
-            if name and not existing_row[2]: existing_row[2] = name
-            if phone and not existing_row[3]: existing_row[3] = phone
-            if url and not existing_row[4]: existing_row[4] = url
-            if brand_name: existing_row[6] = brand_name
-            if category: existing_row[7] = category
-            if about: existing_row[8] = about
-            existing_row[10] = creative_link
-            existing_row[11] = drive_status
-            existing_row[12] = ""
-
-            update_res = service.spreadsheets().values().update(
+            service.spreadsheets().values().update(
                 spreadsheetId=spreadsheet_id,
                 range=f"A{target_row_idx}:M{target_row_idx}",
                 valueInputOption="USER_ENTERED",
-                body={"values": [existing_row[:13]]}
+                body={"values": [existing_row]}
             ).execute()
             print(f"[+] Google Sheet successfully updated at Row {target_row_idx} (Creative Link: '{creative_link}', Drive Status: '{drive_status}')")
             return True
         else:
             print("[*] No existing lead row matched. Appending new row to Google Sheet...")
-            new_row = [
-                datetime.now().strftime("%d/%m/%Y, %I:%M:%S %p"), # Col A: Timestamp
-                "Ad Creative",                                    # Col B: Lead Type
-                name,                                             # Col C: Name
-                phone,                                            # Col D: Phone Number
-                url,                                              # Col E: Website URL
-                "",                                               # Col F: Instagram URL
-                brand_name,                                       # Col G: Brand Name
-                category,                                         # Col H: Category or Niche
-                about,                                            # Col I: About Business
-                "",                                               # Col J: PDF Report Link
-                creative_link,                                    # Col K: Creative Link
-                drive_status,                                     # Col L: Drive Status
-                ""  # Col M: Status
-            ]
-            append_res = service.spreadsheets().values().append(
+            new_row = [""] * len(headers)
+            map_field(new_row, "timestamp", datetime.now().strftime("%d/%m/%Y, %I:%M:%S %p"))
+            map_field(new_row, "lead type", "Ad Creative")
+            map_field(new_row, "name", name)
+            map_field(new_row, "email", email)
+            map_field(new_row, "phone number", phone)
+            map_field(new_row, "website url", url)
+            map_field(new_row, "brand name", brand_name)
+            map_field(new_row, "category or niche", category)
+            map_field(new_row, "about business", about)
+            map_field(new_row, "creative link", creative_link)
+            map_field(new_row, "drive status", drive_status)
+            map_field(new_row, "status", status_val)
+
+            service.spreadsheets().values().append(
                 spreadsheetId=spreadsheet_id,
                 range="A1:M1",
                 valueInputOption="USER_ENTERED",
-                body={"values": [new_row[:13]]}
+                body={"values": [new_row]}
             ).execute()
             print(f"[+] New lead successfully appended to Google Sheet! (Creative Link: '{creative_link}', Drive Status: '{drive_status}')")
             return True
