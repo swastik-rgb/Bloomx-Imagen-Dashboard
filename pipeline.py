@@ -43,7 +43,7 @@ class AdGenerationPipeline:
             "Minimal Collage (Overlaying multiple product angles, staggered offsets)"
         ]
 
-    def run(self, url_or_data, bulk=False, output_dir="output_creatives", limit=1, generate_image=True, screenshot_path=None, use_vision=True):
+    def run(self, url_or_data, bulk=False, output_dir="output_creatives", limit=None, generate_image=False, row_idx=None, screenshot_path=None, use_vision=True):
         """
         Runs the full end-to-end hybrid ad generation pipeline:
         Branch 1 (URL Mode): Scrape & capture visual screenshot for multimodal cross-check.
@@ -218,7 +218,7 @@ class AdGenerationPipeline:
                     try:
                         from sheet_updater import update_lead_sheet, append_debug_log
                         if isinstance(url_or_data, dict):
-                            update_lead_sheet(url_or_data, creative_link=creative_link, drive_status=drive_status)
+                            update_lead_sheet(url_or_data, creative_link=creative_link, drive_status=drive_status, target_row_idx=row_idx)
                             
                             # Upload Screenshot if available
                             screenshot_link = ""

@@ -85,10 +85,11 @@ class DashboardRequestHandler(SimpleHTTPRequestHandler):
                     return
 
                 # 0. Instantly save lead to Google Sheets
+                initial_row_idx = None
                 try:
                     from sheet_updater import update_lead_sheet
                     print("[*] Instantly saving lead to Google Sheets...")
-                    update_lead_sheet(target_input, creative_link="", drive_status="Processing")
+                    initial_row_idx = update_lead_sheet(target_input, creative_link="", drive_status="Processing")
                 except Exception as e_sheet:
                     print(f"[-] Initial sheet save failed: {e_sheet}")
 
@@ -96,7 +97,7 @@ class DashboardRequestHandler(SimpleHTTPRequestHandler):
                 self.send_json_response(200, {"success": True, "message": "Ad Creative generation started in the background."})
                 
                 # Define background task
-                def background_task(t_input, a_key):
+                def background_task(t_input, a_key, r_idx):
                     try:
                         print("[*] Background task started...")
                         pipeline = AdGenerationPipeline(provider="openai", api_key=a_key)
@@ -105,7 +106,8 @@ class DashboardRequestHandler(SimpleHTTPRequestHandler):
                             bulk=False, 
                             output_dir=OUTPUT_DIR, 
                             limit=1, 
-                            generate_image=True
+                            generate_image=True,
+                            row_idx=r_idx
                         )
                         print("[*] Background task completed. Manifest:", manifest)
                     except Exception as e:
@@ -114,7 +116,7 @@ class DashboardRequestHandler(SimpleHTTPRequestHandler):
                         traceback.print_exc()
                         
                 import threading
-                thread = threading.Thread(target=background_task, args=(target_input, api_key))
+                thread = threading.Thread(target=background_task, args=(target_input, api_key, initial_row_idx))
                 thread.daemon = True
                 thread.start()
                 

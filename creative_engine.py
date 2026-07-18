@@ -537,7 +537,7 @@ Please output the complete, fully formed JSON adhering exactly to the schema ins
                 service_val = get_val("SERVICE:") or "Commercial product or service"
                 offer = get_val("OFFER:")
                 raw_footer = get_val("FOOTER:")
-                if not is_url or is_branch_2 or raw_footer in [None, "None", "null", ""]:
+                if not has_url or is_branch_2 or raw_footer in [None, "None", "null", ""]:
                     footer = None
                 else:
                     footer = raw_footer

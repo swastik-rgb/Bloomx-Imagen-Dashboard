@@ -77,69 +77,53 @@ def get_sheets_service():
 
     return None, spreadsheet_id
 
-def update_lead_sheet(lead_data, creative_link="", drive_status="Failure"):
+def update_lead_sheet(data_dict, creative_link="", drive_status="", target_row_idx=None):
     """
-    Updates Google Sheet based on frontend JSON and dynamic column headers.
+    If target_row_idx is provided, updates that exact row.
+    Otherwise, appends a brand new row and returns the new row index.
     """
-    if not isinstance(lead_data, dict):
-        return False
-
-    service, spreadsheet_id = get_sheets_service()
-    if not service or not spreadsheet_id:
-        print("[!] Could not initialize Google Sheets service. Skipping sheet update.")
-        return False
-
-    name = str(lead_data.get("name") or lead_data.get("client_name") or "").strip()
-    email = str(lead_data.get("email") or "").strip()
-    phone = str(lead_data.get("phone") or lead_data.get("client_phone") or lead_data.get("phone_no") or "").strip()
-    url = str(lead_data.get("url") or "").strip()
-    if url == "None" or url == "null": url = ""
-    brand_name = str(lead_data.get("brandName") or lead_data.get("brand_name") or "").strip()
-    category = str(lead_data.get("category") or lead_data.get("niche") or "").strip()
-    about = str(lead_data.get("about") or "").strip()
-
-    print(f"[*] Checking Google Sheet ({spreadsheet_id}) for lead: Name='{name}', Phone='{phone}'...")
+    name = str(data_dict.get("name") or data_dict.get("Name") or data_dict.get("client_name") or "")
+    email = str(data_dict.get("email") or data_dict.get("Email") or "")
+    phone = str(data_dict.get("phone") or data_dict.get("Phone Number") or data_dict.get("Phone") or data_dict.get("client_phone") or data_dict.get("phone_no") or "")
+    url = str(data_dict.get("url") or data_dict.get("Website URL") or "")
+    brand_name = str(data_dict.get("brandName") or data_dict.get("brand_name") or data_dict.get("Brand Name") or "")
+    category = str(data_dict.get("category") or data_dict.get("niche") or data_dict.get("Category or Niche") or "")
+    about = str(data_dict.get("about") or data_dict.get("aboutBusiness") or data_dict.get("About Business") or "")
 
     try:
-        res = service.spreadsheets().values().get(spreadsheetId=spreadsheet_id, range="A1:M1000").execute()
-        rows = res.get("values", [])
-        if not rows: return False
+        service, spreadsheet_id = get_sheets_service()
+        if not service or not spreadsheet_id: return None
+
+        result = service.spreadsheets().values().get(
+            spreadsheetId=spreadsheet_id, range="A1:M1"
+        ).execute()
+        rows = result.get("values", [])
+        if not rows: return None
 
         headers = [str(h).strip().lower() for h in rows[0]]
-        
+
         def get_idx(col_name):
-            try:
-                return headers.index(col_name.lower())
-            except ValueError:
-                return -1
-
-        phone_idx = get_idx("phone number")
-        if phone_idx == -1:
-            print("[-] Could not find 'Phone Number' column in Google Sheet.")
-            return False
-
-        target_row_idx = None
-        for idx, row in enumerate(rows):
-            if idx == 0: continue
-            row_phone = str(row[phone_idx]).strip() if len(row) > phone_idx else ""
-            if phone and row_phone == phone:
-                target_row_idx = idx + 1
-                break
+            try: return headers.index(col_name.lower())
+            except ValueError: return -1
 
         def map_field(r, col_name, value):
             idx = get_idx(col_name)
-            if idx != -1 and value:
+            if idx != -1 and value is not None:
                 is_status_or_link = "link" in col_name or "status" in col_name
-                while len(r) <= idx:
-                    r.append("")
+                # Only overwrite if blank OR if it's a status/link field that needs updating
                 if not r[idx] or is_status_or_link:
                     r[idx] = value
                     
         status_val = "Success" if drive_status == "Success" else "Processing"
 
         if target_row_idx:
-            print(f"[*] Found existing lead at Row {target_row_idx}. Updating fields...")
-            existing_row = rows[target_row_idx - 1]
+            print(f"[*] Updating existing lead at Row {target_row_idx}. Updating fields...")
+            update_res = service.spreadsheets().values().get(
+                spreadsheetId=spreadsheet_id, range=f"A{target_row_idx}:M{target_row_idx}"
+            ).execute()
+            existing_rows = update_res.get("values", [])
+            existing_row = existing_rows[0] if existing_rows else [""] * len(headers)
+            
             while len(existing_row) < len(headers):
                 existing_row.append("")
                 
@@ -161,9 +145,9 @@ def update_lead_sheet(lead_data, creative_link="", drive_status="Failure"):
                 body={"values": [existing_row]}
             ).execute()
             print(f"[+] Google Sheet successfully updated at Row {target_row_idx} (Creative Link: '{creative_link}', Drive Status: '{drive_status}')")
-            return True
+            return target_row_idx
         else:
-            print("[*] No existing lead row matched. Appending new row to Google Sheet...")
+            print("[*] Appending new row to Google Sheet...")
             new_row = [""] * len(headers)
             map_field(new_row, "timestamp", datetime.now().strftime("%d/%m/%Y, %I:%M:%S %p"))
             map_field(new_row, "lead type", "Ad Creative")
@@ -177,19 +161,26 @@ def update_lead_sheet(lead_data, creative_link="", drive_status="Failure"):
             map_field(new_row, "creative link", creative_link)
             map_field(new_row, "drive status", drive_status)
             map_field(new_row, "status", status_val)
-
-            service.spreadsheets().values().append(
+            
+            append_res = service.spreadsheets().values().append(
                 spreadsheetId=spreadsheet_id,
                 range="A1:M1",
                 valueInputOption="USER_ENTERED",
+                insertDataOption="INSERT_ROWS",
                 body={"values": [new_row]}
             ).execute()
-            print(f"[+] New lead successfully appended to Google Sheet! (Creative Link: '{creative_link}', Drive Status: '{drive_status}')")
-            return True
+            
+            updated_range = append_res.get("updates", {}).get("updatedRange", "")
+            if updated_range:
+                import re
+                match = re.search(r"[A-Z]+(\d+)", updated_range.split("!")[-1] if "!" in updated_range else updated_range)
+                if match:
+                    return int(match.group(1))
+            return None
 
     except Exception as e:
-        print(f"[-] Error updating Google Sheet: {e}")
-        return False
+        print(f"[-] Failed to update Google Sheet: {e}")
+        return None
 
 
 def append_debug_log(debug_data):
