@@ -55,6 +55,7 @@ class DashboardRequestHandler(SimpleHTTPRequestHandler):
                 niche = payload.get("category") or payload.get("niche") or ""
                 about = payload.get("about") or payload.get("description") or ""
                 client_name = payload.get("name") or payload.get("client_name") or ""
+                client_email = payload.get("email") or payload.get("client_email") or ""
                 client_phone = payload.get("phone") or payload.get("client_phone") or payload.get("phone_no") or ""
                 req_type = payload.get("type", "creative_ad")
                 
@@ -71,6 +72,7 @@ class DashboardRequestHandler(SimpleHTTPRequestHandler):
                     "category": niche,
                     "about": about,
                     "name": client_name,
+                    "email": client_email,
                     "phone": client_phone
                 }
                 target_input = {k: v for k, v in target_input.items() if v is not None and str(v).strip() != ""}
