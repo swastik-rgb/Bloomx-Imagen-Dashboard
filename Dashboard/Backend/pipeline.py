@@ -2,7 +2,7 @@ import os
 import re
 import json
 import argparse
-from scraper import scrape_and_optimize
+
 from creative_engine import CreativeEngine, load_env_file
 from prompt_converter import json_to_design_brief
 from screenshot_engine import capture_or_load_screenshot
