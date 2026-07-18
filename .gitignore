@@ -38,3 +38,11 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+
+# Mock tests & temporary files
+temp_test.py
+test_auth.txt
+mock_pipeline_test.py
+gdrive_credentials.json
+service_account.json
+token.json
