@@ -38,8 +38,10 @@ class CreativeEngine:
     def call_llm(self, system_prompt, user_prompt, use_search=True, screenshot_b64=None):
         """Calls OpenAI Chat Completion API with retry logic and optional multimodal screenshot vision check."""
         import time
+        self.last_system_prompt = system_prompt
+        self.last_user_prompt = user_prompt
+        self.last_raw_response = None
         max_retries = 3
-        backoff_delay = 2
         
         if screenshot_b64:
             print(f"[*] Attaching visual screenshot (`image_url`) to LLM prompt for multimodal cross-check...")
@@ -64,7 +66,8 @@ class CreativeEngine:
                             messages=messages,
                             tools=[{"type": "web_search"}]
                         )
-                        return response.choices[0].message.content
+                        self.last_raw_response = response.choices[0].message.content
+                        return self.last_raw_response
                     except Exception:
                         # Fallback if model/key tier doesn't support tools flag
                         pass
@@ -74,7 +77,8 @@ class CreativeEngine:
                     response_format={"type": "json_object"},
                     messages=messages
                 )
-                return response.choices[0].message.content
+                self.last_raw_response = response.choices[0].message.content
+                return self.last_raw_response
             except Exception as e:
                 if attempt == max_retries - 1:
                     raise e
@@ -84,6 +88,7 @@ class CreativeEngine:
 
     def generate_image(self, prompt, output_path):
         """Generates an ad creative image via OpenAI GPT Image 2 model."""
+        self.last_image_raw_response = None
         print(f"[*] Generating visual creative via OPENAI API...")
         try:
             response = self.client.images.generate(
@@ -94,6 +99,12 @@ class CreativeEngine:
                 quality="low"
             )
             
+            # Store the exact raw JSON output from the image model
+            if hasattr(response, "model_dump_json"):
+                self.last_image_raw_response = response.model_dump_json()
+            else:
+                self.last_image_raw_response = str(response)
+                
             b64_data = response.data[0].b64_json
             if b64_data:
                 import base64
@@ -404,7 +415,7 @@ Please output the complete, fully formed JSON adhering exactly to the schema ins
                 offer = item.get("offer", item.get("displayText", {}).get("offer", top_messaging.get("sub_headline", "")))
                 cta_text = item.get("cta_text", item.get("displayText", {}).get("cta_text", top_messaging.get("primary_cta_text", "Learn More")))
                 raw_footer = item.get("footer", item.get("displayText", {}).get("footer"))
-                if not is_url or is_branch_2 or raw_footer in [None, "None", "null", ""]:
+                if not has_url or is_branch_2 or raw_footer in [None, "None", "null", ""]:
                     footer = None
                 else:
                     footer = raw_footer

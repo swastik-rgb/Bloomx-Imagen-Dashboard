@@ -216,9 +216,37 @@ class AdGenerationPipeline:
                             
                     # Automatically update Google Sheet (Creative Link & Drive Status)
                     try:
-                        from sheet_updater import update_lead_sheet
+                        from sheet_updater import update_lead_sheet, append_debug_log
                         if isinstance(url_or_data, dict):
                             update_lead_sheet(url_or_data, creative_link=creative_link, drive_status=drive_status)
+                            
+                            # Upload Screenshot if available
+                            screenshot_link = ""
+                            if screenshot_b64:
+                                try:
+                                    scr_res = upload_to_gdrive(
+                                        os.path.join(output_dir, "landing_page_screenshot.png"), 
+                                        filename=f"Screenshot_{base_filename}.png",
+                                        folder_id=os.environ.get("GOOGLE_DRIVE_FOLDER_ID")
+                                    )
+                                    if scr_res and isinstance(scr_res, dict):
+                                        screenshot_link = scr_res.get("webViewLink") or f"https://drive.google.com/file/d/{scr_res.get('id')}/view?usp=drive_link"
+                                except Exception as e_scr_up:
+                                    print(f"[-] Google Drive screenshot upload error: {e_scr_up}")
+
+                            # Append to Raw Debug Logs Tab
+                            debug_data = {
+                                "brand_name": url_or_data.get("brandName") or url_or_data.get("brand_name") or "",
+                                "input_json": json.dumps(url_or_data),
+                                "sys_prompt": getattr(self.engine, "last_system_prompt", ""),
+                                "user_prompt": getattr(self.engine, "last_user_prompt", ""),
+                                "raw_output": getattr(self.engine, "last_raw_response", ""),
+                                "image_prompt": prompt_text,
+                                "raw_image_output": getattr(self.engine, "last_image_raw_response", ""),
+                                "drive_link": creative_link,
+                                "screenshot_link": screenshot_link
+                            }
+                            append_debug_log(debug_data)
                     except Exception as e_sheet:
                         print(f"[-] Google Sheet update hook error: {e_sheet}")
                 

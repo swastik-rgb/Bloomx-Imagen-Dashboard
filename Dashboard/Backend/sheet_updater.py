@@ -105,7 +105,7 @@ def update_lead_sheet(lead_data, creative_link="", drive_status="Failure"):
             if about: existing_row[8] = about
             existing_row[10] = creative_link
             existing_row[11] = drive_status
-            existing_row[12] = "Completed" if drive_status == "Success" else existing_row[12]
+            existing_row[12] = ""
 
             update_res = service.spreadsheets().values().update(
                 spreadsheetId=spreadsheet_id,
@@ -130,7 +130,7 @@ def update_lead_sheet(lead_data, creative_link="", drive_status="Failure"):
                 "",                                               # Col J: PDF Report Link
                 creative_link,                                    # Col K: Creative Link
                 drive_status,                                     # Col L: Drive Status
-                "Completed" if drive_status == "Success" else ""  # Col M: Status
+                ""  # Col M: Status
             ]
             append_res = service.spreadsheets().values().append(
                 spreadsheetId=spreadsheet_id,
@@ -143,6 +143,73 @@ def update_lead_sheet(lead_data, creative_link="", drive_status="Failure"):
 
     except Exception as e:
         print(f"[-] Error updating Google Sheet: {e}")
+        return False
+
+
+def append_debug_log(debug_data):
+    """
+    Appends raw LLM inputs, prompts, outputs, and image prompts to the 'Raw Debug Logs' tab.
+    """
+    if not isinstance(debug_data, dict):
+        return False
+        
+    service, spreadsheet_id = get_sheets_service()
+    if not service or not spreadsheet_id:
+        print("[!] Could not initialize Google Sheets service for debug logging.")
+        return False
+
+    brand_name = str(debug_data.get("brand_name") or "")
+    input_json_str = str(debug_data.get("input_json") or "{}")
+    import json
+    try:
+        parsed_json = json.loads(input_json_str)
+    except Exception:
+        parsed_json = {}
+        
+    frontend_url = str(parsed_json.get("url") or "")
+    frontend_niche = str(parsed_json.get("niche") or parsed_json.get("category") or "")
+    frontend_about = str(parsed_json.get("about") or "")
+
+    sys_prompt = str(debug_data.get("sys_prompt") or "")
+    user_prompt = str(debug_data.get("user_prompt") or "")
+    call_prompt_to_llm = f"--- SYSTEM PROMPT ---\n{sys_prompt}\n\n--- USER PROMPT ---\n{user_prompt}"
+
+    raw_output = str(debug_data.get("raw_output") or "")
+    image_prompt = str(debug_data.get("image_prompt") or "")
+    raw_image_output = str(debug_data.get("raw_image_output") or "")
+    drive_link = str(debug_data.get("drive_link") or "")
+    screenshot_link = str(debug_data.get("screenshot_link") or "")
+
+    print(f"[*] Appending Raw Debug Logs for Brand '{brand_name}'...")
+
+    new_row = [
+        datetime.now().strftime("%d/%m/%Y, %I:%M:%S %p"), # Col A: Timestamp
+        brand_name,                                       # Col B: Brand Name
+        frontend_url,                                     # Col C: Website URL
+        frontend_niche,                                   # Col D: Category or Niche
+        frontend_about,                                   # Col E: About Business
+        call_prompt_to_llm,                               # Col F: Call prompt To LLM
+        raw_output,                                       # Col G: LLM Output
+        image_prompt,                                     # Col H: image prompt
+        raw_image_output,                                 # Col I: Raw image Output Recieved By Image Model
+        drive_link,                                       # Col J: Drive Link of that file
+        screenshot_link                                   # Col K: Screenshot Link
+    ]
+
+    # NEW Dedicated Debug Spreadsheet ID from .env
+    debug_spreadsheet_id = os.environ.get("DEBUG_GOOGLE_SHEET_ID", "1E6GkE6440JysCb1v-pvkSpTQCSBvvY-g_ubvkkJheMU")
+
+    try:
+        append_res = service.spreadsheets().values().append(
+            spreadsheetId=debug_spreadsheet_id,
+            range="A1:K1",
+            valueInputOption="USER_ENTERED",
+            body={"values": [new_row]}
+        ).execute()
+        print(f"[+] Raw Debug Logs successfully appended for '{brand_name}' to dedicated debug sheet!")
+        return True
+    except Exception as e:
+        print(f"[-] Error appending to dedicated debug sheet: {e}")
         return False
 
 if __name__ == "__main__":
