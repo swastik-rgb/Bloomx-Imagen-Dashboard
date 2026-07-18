@@ -32,6 +32,7 @@ def get_sheets_service():
     clean_pk = re.sub(r"-----BEGIN PRIVATE KEY-----", "", pk)
     clean_pk = re.sub(r"-----END PRIVATE KEY-----", "", clean_pk)
     clean_pk = re.sub(r"\\n", "", clean_pk)
+    clean_pk = re.sub(r"[\"']", "", clean_pk) # Strip outer/stray quotes
     clean_pk = re.sub(r"\s+", "", clean_pk) # Strip all spaces and newlines
     
     if clean_pk:
