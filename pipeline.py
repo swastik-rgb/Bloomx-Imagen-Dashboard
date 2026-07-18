@@ -222,17 +222,7 @@ class AdGenerationPipeline:
                             
                             # Upload Screenshot if available
                             screenshot_link = ""
-                            if screenshot_b64:
-                                try:
-                                    scr_res = upload_to_gdrive(
-                                        os.path.join(output_dir, "landing_page_screenshot.png"), 
-                                        filename=f"Screenshot_{base_filename}.png",
-                                        folder_id=os.environ.get("GOOGLE_DRIVE_FOLDER_ID")
-                                    )
-                                    if scr_res and isinstance(scr_res, dict):
-                                        screenshot_link = f"https://drive.google.com/uc?export=download&id={scr_res.get('id')}"
-                                except Exception as e_scr_up:
-                                    print(f"[-] Google Drive screenshot upload error: {e_scr_up}")
+                            # Screenshot upload disabled per user request
 
                             # Append to Raw Debug Logs Tab
                             debug_data = {
