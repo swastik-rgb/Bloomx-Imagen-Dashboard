@@ -21,7 +21,7 @@ def get_sheets_service():
     except Exception:
         pass
 
-    spreadsheet_id = os.environ.get("GOOGLE_SHEET_ID") or os.environ.get("SPREADSHEET_ID") or DEFAULT_SPREADSHEET_ID
+    spreadsheet_id = os.environ.get("GOOGLE_SHEET_ID") or os.environ.get("GOOGLE_SHEETS_ID") or os.environ.get("SPREADSHEET_ID") or DEFAULT_SPREADSHEET_ID
 
     # Use Service Account for Google Sheets (Confirmed working yesterday)
     client_email = os.environ.get("GOOGLE_CLIENT_EMAIL")
