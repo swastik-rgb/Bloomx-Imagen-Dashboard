@@ -54,9 +54,22 @@ def get_sheets_service():
                 "private_key": pk,
                 "token_uri": "https://oauth2.googleapis.com/token"
             }
-            creds = service_account.Credentials.from_service_account_info(
-                info, scopes=["https://www.googleapis.com/auth/spreadsheets"]
-            )
+            try:
+                creds = service_account.Credentials.from_service_account_info(
+                    info, scopes=["https://www.googleapis.com/auth/spreadsheets"]
+                )
+            except Exception as e:
+                print(f"[-] Service account sheets auth error: {e}")
+                print("[*] Falling back to OAuth2 for Google Sheets...")
+                from google.oauth2.credentials import Credentials
+                creds = Credentials(
+                    token=None,
+                    refresh_token=os.environ.get("GOOGLE_OAUTH_REFRESH_TOKEN"),
+                    token_uri="https://oauth2.googleapis.com/token",
+                    client_id=os.environ.get("GOOGLE_OAUTH_CLIENT_ID"),
+                    client_secret=os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET")
+                )
+            
             service = build("sheets", "v4", credentials=creds)
             return service, spreadsheet_id
         except Exception as e_sa:
